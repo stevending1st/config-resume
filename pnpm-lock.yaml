@@ -4,45 +4,65 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  yargs:
-    specifier: ^17.7.2
-    version: 17.7.2
+importers:
 
-devDependencies:
-  '@types/node':
-    specifier: ^20.11.20
-    version: 20.11.20
-  '@types/yargs':
-    specifier: ^17.0.32
-    version: 17.0.32
-  '@typescript-eslint/eslint-plugin':
-    specifier: ^7.0.2
-    version: 7.0.2(@typescript-eslint/parser@7.0.2)(eslint@8.57.0)(typescript@5.3.3)
-  '@typescript-eslint/parser':
-    specifier: ^7.0.2
-    version: 7.0.2(eslint@8.57.0)(typescript@5.3.3)
-  eslint:
-    specifier: ^8.57.0
-    version: 8.57.0
-  eslint-config-prettier:
-    specifier: ^9.1.0
-    version: 9.1.0(eslint@8.57.0)
-  eslint-plugin-simple-import-sort:
-    specifier: ^12.0.0
-    version: 12.0.0(eslint@8.57.0)
-  husky:
-    specifier: ^9.0.11
-    version: 9.0.11
-  lint-staged:
-    specifier: ^15.2.2
-    version: 15.2.2
-  prettier:
-    specifier: ^3.2.5
-    version: 3.2.5
-  unbuild:
-    specifier: ^2.0.0
-    version: 2.0.0(typescript@5.3.3)
+  .:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.20
+        version: 20.11.20
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^7.0.2
+        version: 7.0.2(@typescript-eslint/parser@7.0.2)(eslint@8.57.0)(typescript@5.3.3)
+      '@typescript-eslint/parser':
+        specifier: ^7.0.2
+        version: 7.0.2(eslint@8.57.0)(typescript@5.3.3)
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      eslint-config-prettier:
+        specifier: ^9.1.0
+        version: 9.1.0(eslint@8.57.0)
+      eslint-plugin-simple-import-sort:
+        specifier: ^12.0.0
+        version: 12.0.0(eslint@8.57.0)
+      husky:
+        specifier: ^9.0.11
+        version: 9.0.11
+      lint-staged:
+        specifier: ^15.2.2
+        version: 15.2.2
+      prettier:
+        specifier: ^3.2.5
+        version: 3.2.5
+
+  packages:
+
+    dependencies:
+      yargs:
+        specifier: ^17.7.2
+        version: 17.7.2
+
+    devDependencies:
+      '@types/yargs':
+        specifier: ^17.0.32
+        version: 17.0.32
+      unbuild:
+        specifier: ^2.0.0
+        version: 2.0.0(typescript@5.3.3)
+
+  packages/cli:
+    dependencies:
+      yargs:
+        specifier: ^17.7.2
+        version: 17.7.2
+    devDependencies:
+      '@types/yargs':
+        specifier: ^17.0.32
+        version: 17.0.32
+      unbuild:
+        specifier: ^2.0.0
+        version: 2.0.0(typescript@5.3.3)
 
 packages:
 

@@ -4,7 +4,7 @@ import { hideBin } from 'yargs/helpers';
 import pkginfo from '../package.json';
 
 const cli = yargs(hideBin(process.argv))
-  .scriptName('command-start')
+  .scriptName('cr')
   .usage('$0 [args]')
   .version(pkginfo.version)
   .strict()

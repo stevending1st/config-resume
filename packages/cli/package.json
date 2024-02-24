@@ -1,0 +1,21 @@
+{
+  "name": "@config-resume/cli",
+  "version": "0.0.1",
+  "description": "",
+  "bin": {
+    "cr": "bin/index.mjs"
+  },
+  "scripts": {
+    "dev": "unbuild --stub",
+    "build": "unbuild"
+  },
+  "author": "stevending1st",
+  "license": "MIT",
+  "dependencies": {
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/yargs": "^17.0.32",
+    "unbuild": "^2.0.0"
+  }
+}

@@ -1,13 +1,6 @@
 {
-  "name": "nodejs-command-line-start",
-  "version": "0.0.1",
-  "description": "Node.js Command Line start template",
-  "bin": {
-    "command-start": "bin/index.mjs"
-  },
+  "private": true,
   "scripts": {
-    "dev": "unbuild --stub",
-    "build": "unbuild",
     "lint-staged": "lint-staged",
     "test": "npm run lint-staged",
     "prepare": "husky"
@@ -29,7 +22,6 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.20",
-    "@types/yargs": "^17.0.32",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "eslint": "^8.57.0",
@@ -37,10 +29,6 @@
     "eslint-plugin-simple-import-sort": "^12.0.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
-    "prettier": "^3.2.5",
-    "unbuild": "^2.0.0"
-  },
-  "dependencies": {
-    "yargs": "^17.7.2"
+    "prettier": "^3.2.5"
   }
 }
