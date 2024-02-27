@@ -1,0 +1,91 @@
+---
+import type { EducationComponentProps } from '@config-resume/types';
+import { hasTrue } from '../utils/boolean';
+
+interface Props extends EducationComponentProps {}
+
+const { education } = Astro.props;
+const hasEduction = education?.reduce(
+  (pre, cur) => pre && Object.keys(cur).length > 0,
+  (education?.length || 0) > 0
+);
+---
+
+{
+  hasEduction && (
+    <section class="flex max-md:flex-col flex-row">
+      <header class="max-md:w-full w-3/12 max-md:pb-2 pb-0 text-lg">
+        <h2>EDUCATION</h2>
+      </header>
+      <section class="max-md:w-full w-9/12">
+        <ol>
+          {education!.map(
+            (
+              {
+                institution,
+                url,
+                area,
+                studyType,
+                startDate,
+                endDate,
+                score,
+                courses
+              },
+              index,
+              { length }
+            ) => {
+              const isShowStudyTypeLine = hasTrue(studyType, area, score);
+              const isShowCourses = (courses?.length || 0) > 0;
+              const isShowThisEducation = hasTrue(
+                institution,
+                url,
+                startDate,
+                endDate,
+                isShowCourses,
+                isShowStudyTypeLine
+              );
+
+              return (
+                isShowThisEducation && (
+                  <li class={index < length - 1 ? 'mb-3' : ''}>
+                    {hasTrue(startDate, endDate) && (
+                      <div class="italic font-semibold text-gray-500">
+                        {startDate && <time>{startDate}</time>}
+                        <span>—</span>
+                        {endDate && <time>{endDate}</time>}
+                      </div>
+                    )}
+                    {institution && (
+                      <div class="flex justify-between">
+                        <a href={url} class="font-semibold">
+                          {institution}
+                        </a>
+                      </div>
+                    )}
+                    {isShowStudyTypeLine && (
+                      <div>
+                        <p>
+                          {studyType || ''}
+                          {studyType && area && ' - '}
+                          {area || ''}
+                          {score && <span class="ms-1">(score: {score})</span>}
+                        </p>
+                      </div>
+                    )}
+                    {isShowCourses && (
+                      <ul class="list-disc ps-6 *:pb-1">
+                        {courses!.map(item => (
+                          <li>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                )
+              );
+            }
+          )}
+        </ol>
+      </section>
+    </section>
+  )
+}
