@@ -1,0 +1,75 @@
+---
+import type { ProjectsComponentProps } from '@config-resume/types';
+import { isEmptyObjectArray } from '../utils/array';
+import { hasTrue } from '../utils/boolean';
+
+interface Props extends ProjectsComponentProps {}
+
+const { projects } = Astro.props;
+const hasProject = isEmptyObjectArray(projects);
+---
+
+{
+  hasProject && (
+    <section class="flex max-md:flex-col flex-row">
+      <header class="max-md:w-full w-3/12 max-md:pb-2 pb-0 text-lg">
+        <h2>PROJECTS</h2>
+      </header>
+      <section class="max-md:w-full w-9/12">
+        <ol>
+          {projects!.map(
+            (
+              { name, startDate, endDate, description, highlights, url },
+              index,
+              { length }
+            ) => {
+              const isShowThisLi = hasTrue(
+                name,
+                startDate,
+                endDate,
+                description,
+                (highlights?.length || 0) > 0,
+                url
+              );
+              return (
+                isShowThisLi && (
+                  <li class={index < length - 1 ? 'mb-3' : ''}>
+                    {hasTrue(startDate, endDate) && (
+                      <div class="italic font-semibold text-gray-500">
+                        {startDate && <time>{startDate}</time>}
+                        <span>—</span>
+                        {endDate && <time>{endDate}</time>}
+                      </div>
+                    )}
+                    {name && (
+                      <div>
+                        <strong>{name}</strong>
+                      </div>
+                    )}
+
+                    {url && (
+                      <p>
+                        <a class="text-sky-500" href={url}>
+                          {url}
+                        </a>
+                      </p>
+                    )}
+                    {description && <p>{description}</p>}
+
+                    {(highlights?.length || 0) > 0 && (
+                      <ul class="list-disc ps-6 *:pb-1">
+                        {highlights?.map(item => (
+                          <li>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                )
+              );
+            }
+          )}
+        </ol>
+      </section>
+    </section>
+  )
+}
