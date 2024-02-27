@@ -1,9 +1,11 @@
 {
   "private": true,
   "scripts": {
-    "dev:cli": "pnpm -F @config-resume/cli dev",
-    "dev:theme": "pnpm -F @config-resume/theme dev",
     "dev:types": "pnpm -F @config-resume/types dev",
+    "dev:theme": "pnpm -F @config-resume/theme dev",
+    "dev:cli": "pnpm -F @config-resume/cli dev",
+    "build:types": "pnpm -F @config-resume/types build",
+    "build:theme": "pnpm -F @config-resume/theme build",
     "build:cli": "pnpm -F @config-resume/cli build",
     "lint-staged": "lint-staged",
     "test": "npm run lint-staged",
