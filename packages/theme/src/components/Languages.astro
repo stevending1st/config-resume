@@ -1,0 +1,33 @@
+---
+import type { LanguagesComponentProps } from '@config-resume/types';
+import { isEmptyObjectArray } from '../utils/array';
+
+interface Props extends LanguagesComponentProps {}
+
+const { languages } = Astro.props;
+const hasLanguage = isEmptyObjectArray(languages);
+---
+
+{
+  hasLanguage && (
+    <section class="flex max-md:flex-col flex-row">
+      <header class="max-md:w-full w-3/12 max-md:pb-2 pb-0 text-lg">
+        <h2>LANGUAGES</h2>
+      </header>
+      <section class="max-md:w-full w-9/12">
+        <ul>
+          {languages!.map(
+            ({ language, fluency }, index, { length }) =>
+              language && (
+                <li class={index < length - 1 ? 'mb-3' : ''}>
+                  <strong>{language}</strong>
+                  <strong class="me-2">:</strong>
+                  <span>{fluency}</span>
+                </li>
+              )
+          )}
+        </ul>
+      </section>
+    </section>
+  )
+}
