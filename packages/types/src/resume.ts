@@ -67,7 +67,7 @@ export type Language = Partial<Record<'language' | 'fluency', string>>;
 
 export type Interest = Partial<Record<'name', string> & Keywords>;
 
-export type Reference = Partial<Record<'name' | 'references', string>>;
+export type Reference = Partial<Record<'name' | 'reference', string>>;
 
 export type Project = Partial<
   Record<'name' | 'startDate' | 'endDate' | 'description' | 'url', string> &

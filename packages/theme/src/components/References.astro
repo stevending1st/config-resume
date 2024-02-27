@@ -1,0 +1,42 @@
+---
+import type { ReferencesComponentProps } from '@config-resume/types';
+import { isEmptyObjectArray } from '../utils/array';
+import { hasTrue } from '../utils/boolean';
+
+interface Props extends ReferencesComponentProps {}
+
+const { references } = Astro.props;
+const hasReference = isEmptyObjectArray(references);
+---
+
+{
+  hasReference && (
+    <section class="flex max-md:flex-col flex-row">
+      <header class="max-md:w-full w-3/12 max-md:pb-2 pb-0 text-lg">
+        <h2>REFERENCES</h2>
+      </header>
+      <section class="max-md:w-full w-9/12">
+        <ol>
+          {references!.map(({ name, reference }, index, { length }) => {
+            const isShowThisLi = hasTrue(name, reference);
+
+            return (
+              isShowThisLi && (
+                <li class={index < length - 1 ? 'mb-3' : ''}>
+                  {reference && (
+                    <blockquote>
+                      <p>{reference}</p>
+                    </blockquote>
+                  )}
+                  {name && (
+                    <footer class="text-sm font-semibold">—{name}</footer>
+                  )}
+                </li>
+              )
+            );
+          })}
+        </ol>
+      </section>
+    </section>
+  )
+}
