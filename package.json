@@ -2,8 +2,9 @@
   "private": true,
   "scripts": {
     "dev:cli": "pnpm -F @config-resume/cli dev",
-    "build:cli": "pnpm -F @config-resume/cli build",
     "dev:theme": "pnpm -F @config-resume/theme dev",
+    "dev:types": "pnpm -F @config-resume/types dev",
+    "build:cli": "pnpm -F @config-resume/cli build",
     "lint-staged": "lint-staged",
     "test": "npm run lint-staged",
     "prepare": "husky"

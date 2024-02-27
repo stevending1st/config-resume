@@ -1,0 +1,114 @@
+---
+import type { BasicsComponentProps } from '@config-resume/types';
+import { hasTrue } from '../utils/boolean';
+
+interface Props extends BasicsComponentProps {}
+
+const { name, label, image, email, phone, url, location, profiles } =
+  Astro.props;
+
+const { address, postalCode, city, countryCode, region } = location || {};
+
+const isShowNameLine = hasTrue(name, label);
+const isShowEmailLine = hasTrue(email, phone, url);
+const isShowAddressLine = hasTrue(
+  address,
+  postalCode,
+  city,
+  countryCode,
+  region
+);
+const isShowProfilesLine = hasTrue(profiles, (profiles?.length || 0) > 0);
+const isShowBasic = hasTrue(
+  image,
+  isShowNameLine,
+  isShowEmailLine,
+  isShowAddressLine,
+  isShowProfilesLine
+);
+---
+
+{
+  isShowBasic && (
+    <section>
+      <div class="flex max-sm:flex-col flex-row">
+        {image && (
+          <div class="max-sm:flex-auto flex-none max-sm:w-full w-[110px] flex max-sm:justify-center content-start">
+            <img src={image} alt="avatar" width={90} height={90} />
+          </div>
+        )}
+        <div class="flex-initial">
+          {/* name, label */}
+          {isShowNameLine && (
+            <div>
+              {name && <h1 class="text-2xl font-bold inline">{name}</h1>}
+              {name && label && <span class="text-xl pe-1">,</span>}
+              {label && <h2 class="text-xl inline">{label}</h2>}
+            </div>
+          )}
+
+          {/* email, phone, url */}
+          {isShowEmailLine && (
+            <div>
+              {[
+                email && (
+                  <a class="inline" href={'mailto:' + email}>
+                    {email}
+                  </a>
+                ),
+                phone && (
+                  <a class="inline" href={'tel:' + phone}>
+                    {phone}
+                  </a>
+                ),
+                url && (
+                  <a class="text-sky-500" href={url}>
+                    {url}
+                  </a>
+                )
+              ]
+                .filter(Boolean)
+                .reduce((pre, cur) => {
+                  if (pre.length > 0) pre.push(<span class="mx-2">|</span>);
+                  return [...pre, cur];
+                }, [])}
+            </div>
+          )}
+
+          {/* address, city, region, postalCode, countryCode */}
+          {isShowAddressLine && (
+            <div>
+              <address class="inline">
+                {[address, city, region, postalCode, countryCode]
+                  .filter(Boolean)
+                  .join(', ')}
+              </address>
+            </div>
+          )}
+
+          {/* profiles */}
+          {isShowProfilesLine && (
+            <ul class="*:inline-block *:me-4">
+              {profiles!.map(
+                ({ network, username, url }) =>
+                  network &&
+                  hasTrue(username, url) && (
+                    <li>
+                      <span class="font-bold me-1">{network}:</span>
+                      {url ? (
+                        <a class="text-sky-500" href={url}>
+                          {username || url}
+                        </a>
+                      ) : (
+                        <span>{username}</span>
+                      )}
+                    </li>
+                  )
+              )}
+            </ul>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
