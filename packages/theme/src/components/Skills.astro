@@ -1,0 +1,43 @@
+---
+import type { SkillsComponentProps } from '@config-resume/types';
+import { isEmptyObjectArray } from '../utils/array';
+
+interface Props extends SkillsComponentProps {}
+
+const { skills } = Astro.props;
+const hasSkill = isEmptyObjectArray(skills);
+---
+
+{
+  hasSkill && (
+    <section class="flex max-md:flex-col flex-row">
+      <header class="max-md:w-full w-3/12 max-md:pb-2 pb-0 text-lg">
+        <h2>SKILLS</h2>
+      </header>
+      <section class="max-md:w-full w-9/12">
+        <ul class="list-disc ps-6 *:pb-1">
+          {skills!.map(({ name, level, keywords }, index, { length }) => (
+            <li class={index < length - 1 ? 'mb-3' : ''}>
+              {name && <strong>{name}</strong>}
+              {name && level && (
+                <em class="text-gray-400 font-semibold">({level})</em>
+              )}
+              {name && (keywords?.length || 0) > 0 && (
+                <strong class="me-2">:</strong>
+              )}
+              {(keywords?.length || 0) > 0 && (
+                <span>
+                  {keywords?.map((value, index, { length }) => (
+                    <span class="inline">
+                      {value + (index < length - 1 ? ', ' : '')}
+                    </span>
+                  ))}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </section>
+  )
+}

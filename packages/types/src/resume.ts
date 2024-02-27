@@ -1,6 +1,6 @@
 export type Highlights = Record<'highlights', string[]>;
 
-export type Keywords = Record<'keyword', string[]>;
+export type Keywords = Record<'keywords', string[]>;
 
 export type Location = Partial<
   Record<'address' | 'postalCode' | 'city' | 'countryCode' | 'region', string>
