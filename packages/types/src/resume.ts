@@ -8,7 +8,7 @@ export type Location = Partial<
 
 export type Profile = Partial<Record<'network' | 'username' | 'url', string>>;
 
-export type Basic = Partial<
+export type Basics = Partial<
   Record<
     'name' | 'label' | 'image' | 'email' | 'phone' | 'url' | 'summary',
     string
@@ -75,7 +75,7 @@ export type Project = Partial<
 >;
 
 export type Resume = Partial<{
-  basics: Basic;
+  basics: Basics;
   work: Work[];
   volunteer: Volunteer[];
   education: Education[];
