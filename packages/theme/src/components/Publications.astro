@@ -1,0 +1,71 @@
+---
+import type { PublicationsComponentProps } from '@config-resume/types';
+import { isEmptyObjectArray } from '../utils/array';
+import { hasTrue } from '../utils/boolean';
+
+interface Props extends PublicationsComponentProps {}
+
+const { publications } = Astro.props;
+const hasPublication = isEmptyObjectArray(publications);
+---
+
+{
+  hasPublication && (
+    <section class="flex max-md:flex-col flex-row">
+      <header class="max-md:w-full w-3/12 max-md:pb-2 pb-0 text-lg">
+        <h2>PUBLICATIONS</h2>
+      </header>
+      <section class="max-md:w-full w-9/12">
+        <ol>
+          {publications!.map(
+            (
+              { name, publisher, releaseDate, url, summary },
+              index,
+              { length }
+            ) => {
+              const isShowThisLi = hasTrue(
+                name,
+                publisher,
+                releaseDate,
+                url,
+                summary
+              );
+
+              return (
+                isShowThisLi && (
+                  <li class={index < length - 1 ? 'mb-3' : ''}>
+                    {releaseDate && (
+                      <div class="italic font-semibold text-gray-500">
+                        <time>{releaseDate}</time>
+                      </div>
+                    )}
+                    {name && (
+                      <div>
+                        <cite class="font-semibold">
+                          {url ? (
+                            <a class="text-sky-500" href={url}>
+                              {name}
+                            </a>
+                          ) : (
+                            <span>{name}</span>
+                          )}
+                        </cite>
+                        {publisher && <span class="mx-1">|</span>}
+                        {publisher && <span>{publisher}</span>}
+                      </div>
+                    )}
+                    {summary && (
+                      <div>
+                        <p>{summary}</p>
+                      </div>
+                    )}
+                  </li>
+                )
+              );
+            }
+          )}
+        </ol>
+      </section>
+    </section>
+  )
+}
