@@ -1,0 +1,49 @@
+---
+import type { AwardsComponentProps } from '@config-resume/types';
+import { isEmptyObjectArray } from '../utils/array';
+import { hasTrue } from '../utils/boolean';
+
+interface Props extends AwardsComponentProps {}
+
+const { awards } = Astro.props;
+const hasAward = isEmptyObjectArray(awards);
+---
+
+{
+  hasAward && (
+    <section class="flex max-md:flex-col flex-row">
+      <header class="max-md:w-full w-3/12 max-md:pb-2 pb-0 text-lg">
+        <h2>AWARDS</h2>
+      </header>
+      <section class="max-md:w-full w-9/12">
+        <ol>
+          {awards!.map(
+            ({ title, date, awarder, summary }, index, { length }) => {
+              const isShowThisLi = hasTrue(title, date, awarder, summary);
+
+              return (
+                isShowThisLi && (
+                  <li class={index < length - 1 ? 'mb-3' : ''}>
+                    {date && (
+                      <div class="italic font-semibold text-gray-500">
+                        <time>{date}</time>
+                      </div>
+                    )}
+                    {title && (
+                      <div>
+                        <strong>{title}</strong>
+                        {awarder && <span class="mx-1">|</span>}
+                        {awarder && <span>{awarder}</span>}
+                      </div>
+                    )}
+                    {summary && <p>{summary}</p>}
+                  </li>
+                )
+              );
+            }
+          )}
+        </ol>
+      </section>
+    </section>
+  )
+}
