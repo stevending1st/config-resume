@@ -1,0 +1,20 @@
+{
+  "name": "@config-resume/types",
+  "version": "0.0.1",
+  "description": "Common type of project",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "index.d.ts",
+  "files": [
+    "client.d.ts",
+    "dist",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts",
+    "dev": "pnpm build --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "author": "stevending1st",
+  "license": "MIT"
+}
