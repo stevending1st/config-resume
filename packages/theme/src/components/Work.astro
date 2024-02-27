@@ -1,0 +1,74 @@
+---
+import type { WorkComponentProps } from '@config-resume/types';
+import { isEmptyObjectArray } from '../utils/array';
+import { hasTrue } from '../utils/boolean';
+
+interface Props extends WorkComponentProps {}
+
+const { work } = Astro.props;
+const hasWork = isEmptyObjectArray(work);
+---
+
+{
+  hasWork && (
+    <section class="flex max-md:flex-col flex-row">
+      <header class="max-md:w-full w-3/12 max-md:pb-2 pb-0 text-lg">
+        <h2>EXPERIENCE</h2>
+      </header>
+      <section class="max-md:w-full w-9/12">
+        <ol>
+          {work!.map(
+            (
+              { name, position, url, startDate, endDate, summary, highlights },
+              index,
+              { length }
+            ) => {
+              const isShowThisLi = hasTrue(
+                name,
+                position,
+                url,
+                startDate,
+                endDate,
+                summary,
+                (highlights?.length || 0) > 0
+              );
+
+              return (
+                isShowThisLi && (
+                  <li class={index < length - 1 ? 'mb-3' : ''}>
+                    {hasTrue(startDate, endDate) && (
+                      <div class="italic font-semibold text-gray-500">
+                        {startDate && <time>{startDate}</time>}
+                        <span>—</span>
+                        {endDate && <time>{endDate}</time>}
+                      </div>
+                    )}
+                    {hasTrue(name || url, position) && (
+                      <div>
+                        {hasTrue(name, url) && (
+                          <strong>
+                            <a href={url}>{name || url}</a>
+                          </strong>
+                        )}
+                        {name && position && <span class="mx-1">|</span>}
+                        {position && <span>{position}</span>}
+                      </div>
+                    )}
+                    {summary && <p>{summary}</p>}
+                    {!!highlights?.length && (
+                      <ul class="list-disc ps-6 *:pb-1">
+                        {highlights?.map(item => (
+                          <li>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                )
+              );
+            }
+          )}
+        </ol>
+      </section>
+    </section>
+  )
+}
