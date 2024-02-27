@@ -1,0 +1,45 @@
+---
+import type { InterestsComponentProps } from '@config-resume/types';
+import { isEmptyObjectArray } from '../utils/array';
+import { hasTrue } from '../utils/boolean';
+
+interface Props extends InterestsComponentProps {}
+
+const { interests } = Astro.props;
+const hasInterest = isEmptyObjectArray(interests);
+---
+
+{
+  hasInterest && (
+    <section class="flex max-md:flex-col flex-row">
+      <header class="max-md:w-full w-3/12 max-md:pb-2 pb-0 text-lg">
+        <h2>INTERESTS</h2>
+      </header>
+      <section class="max-md:w-full w-9/12">
+        <ul class="list-disc ps-6 *:pb-1 *:mb-2">
+          {interests!.map(({ name, keywords }, index, { length }) => {
+            const hasKeyword = !!keywords?.length;
+            const isShowThisLi = hasTrue(name, hasKeyword);
+            return (
+              isShowThisLi && (
+                <li class={index < length - 1 ? 'mb-3' : ''}>
+                  {name && <strong>{name}</strong>}
+                  {name && hasKeyword && <strong class="me-2">:</strong>}
+                  {hasKeyword && (
+                    <span>
+                      {keywords.map((value, index, { length }) => (
+                        <span class="inline">
+                          {value + (index < length - 1 ? ', ' : '')}
+                        </span>
+                      ))}
+                    </span>
+                  )}
+                </li>
+              )
+            );
+          })}
+        </ul>
+      </section>
+    </section>
+  )
+}
