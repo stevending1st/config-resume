@@ -7,6 +7,7 @@
     "build:types": "pnpm -F @config-resume/types build",
     "build:theme": "pnpm -F @config-resume/theme build",
     "build:cli": "pnpm -F @config-resume/cli build",
+    "preview:theme": "pnpm -F @config-resume/theme preview",
     "lint-staged": "lint-staged",
     "test": "npm run lint-staged",
     "prepare": "husky"
