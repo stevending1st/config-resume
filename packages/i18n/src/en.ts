@@ -1,4 +1,6 @@
-export const en = {
+import { I18nItemType } from './type';
+
+export const en: I18nItemType = {
   awards: 'awards',
   basics: 'basics',
   certificates: 'certificates',
@@ -15,7 +17,3 @@ export const en = {
 };
 
 export default en;
-
-export type I18nType = Record<keyof typeof en, string>;
-
-export type I18nSubType = Partial<I18nType>;

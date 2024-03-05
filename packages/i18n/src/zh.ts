@@ -1,6 +1,6 @@
-import { I18nType } from './en';
+import { I18nItemType } from './en';
 
-export const zh: I18nType = {
+export const zh: I18nItemType = {
   awards: '奖项',
   basics: '基础信息',
   certificates: '证书',
