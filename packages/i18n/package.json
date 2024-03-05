@@ -1,0 +1,19 @@
+{
+  "name": "@config-resume/i18n",
+  "version": "0.0.1",
+  "description": "i18n of project",
+  "author": "stevending1st",
+  "license": "MIT",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "index.d.ts",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts",
+    "dev": "pnpm build --watch",
+    "prepublishOnly": "npm run build"
+  }
+}
