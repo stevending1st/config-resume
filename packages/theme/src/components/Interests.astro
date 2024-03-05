@@ -5,7 +5,7 @@ import { hasTrue } from '../utils/boolean';
 
 interface Props extends InterestsComponentProps {}
 
-const { interests } = Astro.props;
+const { interests, componentNameText } = Astro.props;
 const hasInterest = isEmptyObjectArray(interests);
 ---
 
@@ -13,7 +13,7 @@ const hasInterest = isEmptyObjectArray(interests);
   hasInterest && (
     <section class="flex max-md:flex-col flex-row">
       <header class="max-md:w-full w-3/12 max-md:pb-2 pb-0 text-lg">
-        <h2>INTERESTS</h2>
+        <h2 class="uppercase">{componentNameText || ''}</h2>
       </header>
       <section class="max-md:w-full w-9/12">
         <ul class="list-disc ps-6 *:pb-1 *:mb-2">

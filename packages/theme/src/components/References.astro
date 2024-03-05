@@ -5,7 +5,7 @@ import { hasTrue } from '../utils/boolean';
 
 interface Props extends ReferencesComponentProps {}
 
-const { references } = Astro.props;
+const { references, componentNameText } = Astro.props;
 const hasReference = isEmptyObjectArray(references);
 ---
 
@@ -13,7 +13,7 @@ const hasReference = isEmptyObjectArray(references);
   hasReference && (
     <section class="flex max-md:flex-col flex-row">
       <header class="max-md:w-full w-3/12 max-md:pb-2 pb-0 text-lg">
-        <h2>REFERENCES</h2>
+        <h2 class="uppercase">{componentNameText || ''}</h2>
       </header>
       <section class="max-md:w-full w-9/12">
         <ol>

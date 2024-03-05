@@ -39,29 +39,35 @@ const { summary, ...otherBasics } = basics;
     >
       <Basics {...otherBasics} />
 
-      <Summary summary={summary} />
+      <Summary componentNameText="SUMMARY" summary={summary} />
 
-      <Education education={education} />
+      <Education componentNameText="EDUCATION" education={education} />
 
-      <Certificates certificates={certificates} />
+      <Certificates
+        componentNameText="CERTIFICATES"
+        certificates={certificates}
+      />
 
-      <Skills skills={skills} />
+      <Skills componentNameText="SKILLS" skills={skills} />
 
-      <Projects projects={projects} />
+      <Projects componentNameText="PROJECTS" projects={projects} />
 
-      <Languages languages={languages} />
+      <Languages componentNameText="LANGUAGES" languages={languages} />
 
-      <Work work={work} />
+      <Work componentNameText="EXPERIENCE" work={work} />
 
-      <Publications publications={publications} />
+      <Publications
+        componentNameText="PUBLICATIONS"
+        publications={publications}
+      />
 
-      <Awards awards={awards} />
+      <Awards componentNameText="Awards" awards={awards} />
 
-      <Interests interests={interests} />
+      <Interests componentNameText="INTERESTS" interests={interests} />
 
-      <Volunteer volunteer={volunteer} />
+      <Volunteer componentNameText="VOLUNTEER" volunteer={volunteer} />
 
-      <References references={references} />
+      <References componentNameText="REFERENCES" references={references} />
     </div>
   </main>
 </Layout>

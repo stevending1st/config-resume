@@ -3,14 +3,14 @@ import type { SummaryComponentProps } from '@config-resume/types';
 
 interface Props extends SummaryComponentProps {}
 
-const { summary } = Astro.props;
+const { summary, componentNameText } = Astro.props;
 ---
 
 {
   summary && (
     <section class="flex max-md:flex-col flex-row">
       <header class="max-md:w-full w-3/12 max-md:pb-2 pb-0 text-lg">
-        <h2>SUMMARY</h2>
+        <h2 class="uppercase">{componentNameText || ''}</h2>
       </header>
       <section class="max-md:w-full w-9/12">
         <p>{summary}</p>

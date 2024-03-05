@@ -4,7 +4,7 @@ import { isEmptyObjectArray } from '../utils/array';
 
 interface Props extends LanguagesComponentProps {}
 
-const { languages } = Astro.props;
+const { languages, componentNameText } = Astro.props;
 const hasLanguage = isEmptyObjectArray(languages);
 ---
 
@@ -12,7 +12,7 @@ const hasLanguage = isEmptyObjectArray(languages);
   hasLanguage && (
     <section class="flex max-md:flex-col flex-row">
       <header class="max-md:w-full w-3/12 max-md:pb-2 pb-0 text-lg">
-        <h2>LANGUAGES</h2>
+        <h2 class="uppercase">{componentNameText || ''}</h2>
       </header>
       <section class="max-md:w-full w-9/12">
         <ul>
