@@ -1,11 +1,3 @@
-import { defineConfig } from 'tsup';
+import tsupconfig from '../../tsup.config';
 
-export default defineConfig({
-  format: ['esm'],
-  target: 'node18',
-  splitting: true,
-  dts: true,
-  clean: true,
-  shims: false,
-  external: [/@config-resume/]
-});
+export default tsupconfig;
