@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "jsx": "preserve",
+    "lib": ["DOM", "ESNext"],
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "paths": {
+      "@config-resume/i18n": ["./packages/i18n/src/index.ts"],
+      "@config-resume/types": ["./packages/types/src/index.ts"],
+      "@config-resume/cli": ["./packages/cli/src/index.ts"]
+    },
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "strict": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  },
+  "include": ["./*.ts", "./packages/**/*.ts", "./test/**/*.ts"],
+  "exclude": ["**/dist/**", "node_modules"]
+}
