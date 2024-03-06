@@ -15,6 +15,8 @@ import Work from '../components/Work.astro';
 import Layout from '../layouts/Layout.astro';
 import personData from '../mock/resume.json';
 
+import lang from 'virtual:config-resume:i18n';
+
 const {
   basics,
   work,
@@ -39,35 +41,35 @@ const { summary, ...otherBasics } = basics;
     >
       <Basics {...otherBasics} />
 
-      <Summary componentNameText="SUMMARY" summary={summary} />
+      <Summary componentNameText={lang.summary} summary={summary} />
 
-      <Education componentNameText="EDUCATION" education={education} />
+      <Education componentNameText={lang.education} education={education} />
 
       <Certificates
-        componentNameText="CERTIFICATES"
+        componentNameText={lang.certificates}
         certificates={certificates}
       />
 
-      <Skills componentNameText="SKILLS" skills={skills} />
+      <Skills componentNameText={lang.skills} skills={skills} />
 
-      <Projects componentNameText="PROJECTS" projects={projects} />
+      <Projects componentNameText={lang.projects} projects={projects} />
 
-      <Languages componentNameText="LANGUAGES" languages={languages} />
+      <Languages componentNameText={lang.languages} languages={languages} />
 
-      <Work componentNameText="EXPERIENCE" work={work} />
+      <Work componentNameText={lang.work} work={work} />
 
       <Publications
-        componentNameText="PUBLICATIONS"
+        componentNameText={lang.publications}
         publications={publications}
       />
 
-      <Awards componentNameText="Awards" awards={awards} />
+      <Awards componentNameText={lang.awards} awards={awards} />
 
-      <Interests componentNameText="INTERESTS" interests={interests} />
+      <Interests componentNameText={lang.interests} interests={interests} />
 
-      <Volunteer componentNameText="VOLUNTEER" volunteer={volunteer} />
+      <Volunteer componentNameText={lang.volunteer} volunteer={volunteer} />
 
-      <References componentNameText="REFERENCES" references={references} />
+      <References componentNameText={lang.references} references={references} />
     </div>
   </main>
 </Layout>
