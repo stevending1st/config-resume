@@ -74,6 +74,8 @@ export type Project = Partial<
     Highlights
 >;
 
+export type Expansion = Partial<Record<string, unknown>>;
+
 export type Resume = Partial<{
   basics: Basics;
   work: Work[];
@@ -88,3 +90,19 @@ export type Resume = Partial<{
   references: Reference[];
   projects: Project[];
 }>;
+
+export type ResumeExpansion = Partial<{
+  basics: Basics & Expansion;
+  work: (Work & Expansion)[];
+  volunteer: (Volunteer & Expansion)[];
+  education: (Education & Expansion)[];
+  awards: (Award & Expansion)[];
+  certificates: (Certificate & Expansion)[];
+  publications: (Publication & Expansion)[];
+  skills: (Skill & Expansion)[];
+  languages: (Language & Expansion)[];
+  interests: (Interest & Expansion)[];
+  references: (Reference & Expansion)[];
+  projects: (Project & Expansion)[];
+}> &
+  Expansion;
