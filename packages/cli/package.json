@@ -23,6 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@config-resume/i18n": "workspace:^",
+    "@config-resume/types": "workspace:^",
     "fs-extra": "^11.2.0",
     "yargs": "^17.7.2"
   },

@@ -47,6 +47,9 @@ importers:
       '@config-resume/i18n':
         specifier: workspace:^
         version: link:../i18n
+      '@config-resume/types':
+        specifier: workspace:^
+        version: link:../types
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
