@@ -1,8 +1,14 @@
 cd ./packages/types
 npm run build
 
-cd ../theme
+cd ../i18n
 npm run build
 
 cd ../cli
 npm run build
+
+cd ../theme
+npm run build
+
+
+
