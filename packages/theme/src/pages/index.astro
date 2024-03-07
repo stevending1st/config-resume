@@ -13,9 +13,9 @@ import Summary from '../components/Summary.astro';
 import Volunteer from '../components/Volunteer.astro';
 import Work from '../components/Work.astro';
 import Layout from '../layouts/Layout.astro';
-import personData from '../mock/resume.json';
 
 import lang from 'virtual:config-resume:i18n';
+import resume from 'virtual:config-resume:resume';
 
 const {
   basics,
@@ -30,8 +30,8 @@ const {
   interests,
   references,
   projects
-} = personData;
-const { summary, ...otherBasics } = basics;
+} = resume || {};
+const { summary, ...otherBasics } = basics || {};
 ---
 
 <Layout title="Welcome to Astro.">
