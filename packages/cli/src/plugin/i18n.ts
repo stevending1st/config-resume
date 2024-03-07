@@ -1,7 +1,7 @@
 import i18n, { type I18nType } from '@config-resume/i18n';
 import fs from 'fs-extra';
 import path from 'path';
-import { type Plugin, ViteDevServer } from 'vite';
+import { type PluginOption, ViteDevServer } from 'vite';
 
 export const mergeI18n = (baseI18n: I18nType, newI18n: I18nType) => {
   const resultI18n: I18nType = {};
@@ -52,7 +52,7 @@ const loadI18nFolder = async (dir: string) => {
   return i18n;
 };
 
-export function i18nPlugin(): Plugin {
+export function i18nPlugin(): PluginOption {
   const virtualModuleId = 'virtual:config-resume:i18n';
   const resolvedVirtualModuleId = '\0' + virtualModuleId;
 

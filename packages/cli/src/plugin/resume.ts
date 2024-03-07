@@ -1,7 +1,7 @@
 import { type Resume } from '@config-resume/types';
 import fs from 'fs-extra';
 import path from 'path';
-import { type Plugin, ViteDevServer } from 'vite';
+import { type PluginOption, ViteDevServer } from 'vite';
 
 export type ResumeCache = Record<string, Resume>;
 
@@ -44,7 +44,7 @@ const loadResumeFolder = async (dir: string) => {
   return resume;
 };
 
-export function loadResumePlugin(): Plugin {
+export function loadResumePlugin(): PluginOption {
   const virtualModuleId = 'virtual:config-resume:resume';
   const resolvedVirtualModuleId = '\0' + virtualModuleId;
 
