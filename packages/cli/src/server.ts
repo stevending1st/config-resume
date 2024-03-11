@@ -110,7 +110,7 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
     return;
   }
 
-  await run(parseNi, ['install']);
+  await run(parseNi, []);
 
   await rimraf('./.config-resume');
 
