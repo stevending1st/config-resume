@@ -66,6 +66,9 @@ importers:
       chokidar:
         specifier: ^3.6.0
         version: 3.6.0
+      execa:
+        specifier: ^8.0.1
+        version: 8.0.1
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
@@ -91,7 +94,11 @@ importers:
 
   packages/cli/src/template: {}
 
-  packages/cli/template: {}
+  packages/cli/template:
+    devDependencies:
+      '@config-resume/cli':
+        specifier: 0.0.1-alpha.3
+        version: link:..
 
   packages/i18n: {}
 

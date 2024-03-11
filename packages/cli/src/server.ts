@@ -2,12 +2,17 @@ import path, { basename, join } from 'node:path';
 
 import { parseNi, run } from '@antfu/ni';
 import chokidar from 'chokidar';
+import { execa } from 'execa';
 import fs from 'fs-extra';
 import isInstalledGlobally from 'is-installed-globally';
 import { rimraf } from 'rimraf';
 
 import { buildAstro, createAstroServer, previewAstro } from './astro';
-import { findPkgPath, safeCopyWithoutCover } from './fs';
+import {
+  findNpmAndYarnGlobalPkgPath,
+  findPkgPath,
+  safeCopyWithoutCover
+} from './fs';
 
 export const getLangListFromFile = async () => {
   const dirs = await fs.readdir('./');
@@ -66,20 +71,19 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
     return;
   }
 
-  if (
-    !(await safeCopyWithoutCover(
-      join(crPath, 'template/package.json'),
-      './package.json'
-    ))
-  ) {
-    console.log('Failed to create package.json.');
-    return;
+  // resume file
+  const langList = (await getLangListFromFile()).filter(
+    value => value === value.toLowerCase()
+  );
+
+  if (!langList.length) {
+    await safeCopyWithoutCover(
+      join(crPath, 'template/resume.en.json'),
+      './resume.en.json'
+    );
   }
 
-  await run(parseNi, ['-D', '@config-resume/theme']);
-
-  await rimraf('./.config-resume');
-
+  // copy .gitignore
   if (await fs.exists('./.gitignore')) {
     const gitignoreBufferContent = await fs.readFile('./.gitignore');
     const gitignoreContent = gitignoreBufferContent.toString('utf-8');
@@ -92,30 +96,43 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
       await fs.appendFile('./.gitignore', '.config-resume');
     }
   } else {
-    fs.copy(join(crPath, 'template/.template-gitignore'), './.gitignore');
+    await fs.copy(join(crPath, 'template/.template-gitignore'), './.gitignore');
   }
 
+  // copy package.json
   if (
     !(await safeCopyWithoutCover(
-      join('./node_modules', '@config-resume/theme'),
-      './.config-resume'
+      join(crPath, 'template/package.json'),
+      './package.json'
     ))
   ) {
+    console.log('Failed to create package.json.');
+    return;
+  }
+
+  await run(parseNi, ['install']);
+
+  await rimraf('./.config-resume');
+
+  // delete .config-resume
+  let themePath = await findNpmAndYarnGlobalPkgPath('@config-resume/theme');
+
+  if (!themePath) {
+    // install theme
+    await execa('npm', ['install', '-g', '@config-resume/theme'], {
+      stdio: 'inherit'
+    });
+    themePath = await findNpmAndYarnGlobalPkgPath('@config-resume/theme');
+  }
+
+  // copy @config-resume/theme
+  if (!themePath) {
     console.log('Unable to find template file');
     return false;
   }
+  await safeCopyWithoutCover(themePath, './.config-resume');
 
-  const langList = (await getLangListFromFile()).filter(
-    value => value === value.toLowerCase()
-  );
-
-  if (!langList.length) {
-    await safeCopyWithoutCover(
-      join(crPath, 'template/resume.en.json'),
-      './resume.en.json'
-    );
-  }
-
+  // Create a multilingual page
   if (action === 'build') {
     const pageFilePath = join('./.config-resume', 'src/pages/index.astro');
 
@@ -136,6 +153,7 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
     await fs.remove(pageFilePath);
   }
 
+  // watch resume files
   const mockDir = await fs.realpath('./.config-resume/src/mock');
   await fs.emptyDir(mockDir);
   const watchResumeAddAndChangeCb = async (path: string) => {
@@ -164,6 +182,7 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
     await fs.remove(join(mockDir, baseName));
   });
 
+  // watch i18n
   await fs.emptyDir('./.config-resume/user-i18n');
   const userI18nDir = await fs.realpath('./.config-resume/user-i18n');
 
@@ -193,6 +212,7 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
     await fs.remove(join(userI18nDir, baseName));
   });
 
+  // close watch
   if (action === 'build') {
     await resumeWatcher.close();
     await i18nWatcher.close();
