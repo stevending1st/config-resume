@@ -22,9 +22,11 @@
   "author": "stevending1st",
   "license": "MIT",
   "dependencies": {
+    "@antfu/ni": "^0.21.12",
     "@config-resume/i18n": "workspace:^",
     "@config-resume/types": "workspace:^",
     "astro": "^4.4.4",
+    "chokidar": "^3.6.0",
     "fs-extra": "^11.2.0",
     "global-directory": "^4.0.1",
     "is-installed-globally": "^1.0.0",

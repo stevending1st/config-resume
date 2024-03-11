@@ -2,6 +2,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import pkginfo from '../package.json';
+import { createBuild, createDev, createPreview } from './server';
 
 const cli = yargs(hideBin(process.argv))
   .scriptName('cr')
@@ -30,17 +31,21 @@ cli.command(
       })
       .strict()
       .help(),
-  ({ parameter, option }) =>
-    console.log(
-      `You passed the [${parameter}] parameter to the command and selected the [${option?.join(',')}] option`
-    )
+  () => createDev()
 );
 
 cli.command(
-  'subcommand',
-  'Call subcommand',
+  'build',
+  'build',
   args => args.strict().help(),
-  ({ _ }) => console.log(`The [${_.join(' ')}] subcommand was called by you.`)
+  () => createBuild()
+);
+
+cli.command(
+  'preview',
+  'preview',
+  args => args.strict().help(),
+  () => createPreview()
 );
 
 cli

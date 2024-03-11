@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.5
     devDependencies:
       '@types/node':
         specifier: ^20.11.20
@@ -44,6 +48,9 @@ importers:
 
   packages/cli:
     dependencies:
+      '@antfu/ni':
+        specifier: ^0.21.12
+        version: 0.21.12
       '@config-resume/i18n':
         specifier: workspace:^
         version: link:../i18n
@@ -53,6 +60,9 @@ importers:
       astro:
         specifier: ^4.4.4
         version: 4.4.4(@types/node@20.11.20)(typescript@5.3.3)
+      chokidar:
+        specifier: ^3.6.0
+        version: 3.6.0
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
@@ -136,6 +146,11 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.22
+    dev: false
+
+  /@antfu/ni@0.21.12:
+    resolution: {integrity: sha512-2aDL3WUv8hMJb2L3r/PIQWsTLyq7RQr3v9xD16fiz6O8ys1xEyLhhTOv8gxtZvJiTzjTF5pHoArvRdesGL1DMQ==}
+    hasBin: true
     dev: false
 
   /@astrojs/check@0.5.5(prettier-plugin-astro@0.13.0)(prettier@3.2.5)(typescript@5.3.3):
@@ -4026,6 +4041,14 @@ packages:
     dependencies:
       glob: 7.2.3
     dev: true
+
+  /rimraf@5.0.5:
+    resolution: {integrity: sha512-CqDakW+hMe/Bz202FPEymy68P+G50RfMQK+Qo5YUqc9SPipvbGjCGKd0RSKEelbsfQuw3g5NZDSrlZZAJurH1A==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      glob: 10.3.10
+    dev: false
 
   /rollup@4.12.0:
     resolution: {integrity: sha512-wz66wn4t1OHIJw3+XU7mJJQV/2NAfw5OAk6G6Hoo3zcvz/XOfQ52Vgi+AN4Uxoxi0KBBwk2g8zPrTDA4btSB/Q==}
