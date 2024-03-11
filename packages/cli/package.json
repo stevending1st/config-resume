@@ -1,7 +1,9 @@
 {
   "name": "@config-resume/cli",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.1-alpha",
+  "description": "Generate a resume web page through a profile.",
+  "author": "stevending1st",
+  "license": "MIT",
   "bin": {
     "cr": "bin/index.mjs"
   },
@@ -15,12 +17,17 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "index.d.ts",
+  "files": [
+    "bin",
+    "client",
+    "dist",
+    "template",
+    "index.d.ts"
+  ],
   "scripts": {
     "build": "tsup src/index.ts src/cli.ts",
     "dev": "pnpm build --watch"
   },
-  "author": "stevending1st",
-  "license": "MIT",
   "dependencies": {
     "@antfu/ni": "^0.21.12",
     "@config-resume/i18n": "workspace:^",

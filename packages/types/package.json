@@ -1,12 +1,11 @@
 {
   "name": "@config-resume/types",
-  "version": "0.0.1",
-  "description": "Common type of project",
+  "version": "0.0.1-alpha",
+  "description": "Share type of config-resume.",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "index.d.ts",
   "files": [
-    "client.d.ts",
     "dist",
     "index.d.ts"
   ],

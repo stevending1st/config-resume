@@ -1,10 +1,19 @@
 {
   "name": "@config-resume/theme",
-  "type": "module",
-  "version": "0.0.1",
-  "description": "Default theme",
+  "version": "0.0.1-alpha",
+  "description": "Default theme for config-resume.",
   "author": "stevending1st",
+  "type": "module",
   "license": "MIT",
+  "files": [
+    "i18n",
+    "public",
+    "src",
+    ".gitignore",
+    "astro.config.mjs",
+    "tailwind.config.mjs",
+    "tsconfig.json"
+  ],
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
