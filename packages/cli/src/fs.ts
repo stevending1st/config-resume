@@ -12,8 +12,6 @@ export const findNpmAndYarnGlobalPkgPath = async (pkgName: string) => {
     if (await fs.exists(pkgJsonPath)) {
       const pkgNameFromPkgJson = await fs.readJSON(pkgJsonPath);
 
-      console.log('pkgNameFromPkgJson', pkgNameFromPkgJson.name);
-
       if (pkgNameFromPkgJson.name === pkgName) return pkgPath;
     }
   };
