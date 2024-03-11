@@ -24,13 +24,13 @@
   "dependencies": {
     "@config-resume/i18n": "workspace:^",
     "@config-resume/types": "workspace:^",
+    "astro": "^4.4.4",
     "fs-extra": "^11.2.0",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/yargs": "^17.0.32",
-    "astro": "^4.4.4",
     "vite": "^5.1.5"
   }
 }
