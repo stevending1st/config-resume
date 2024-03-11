@@ -1,6 +1,6 @@
 import { type Resume } from '@config-resume/types';
 import fs from 'fs-extra';
-import path from 'path';
+import path, { join } from 'path';
 import { type PluginOption, ViteDevServer } from 'vite';
 
 export type ResumeCache = Record<string, Resume>;
@@ -48,6 +48,8 @@ export function loadResumePlugin(): PluginOption {
   const virtualModuleId = 'virtual:config-resume:resume';
   const resolvedVirtualModuleId = '\0' + virtualModuleId;
 
+  let thisCommand = 'build';
+
   let lang = 'en';
   let resumeCache = {} as ResumeCache;
 
@@ -65,21 +67,35 @@ export function loadResumePlugin(): PluginOption {
   return {
     name: 'config-resume:resume',
 
+    config(_, { command }) {
+      thisCommand = command;
+    },
+
     async options() {
       resumeCache = await loadResume();
     },
 
-    resolveId(id: string) {
-      if (id === virtualModuleId) return resolvedVirtualModuleId;
-    },
-
-    load(id: string) {
-      if (id === resolvedVirtualModuleId) {
-        return `export default ${JSON.stringify(resumeCache[lang])}`;
+    resolveId(id: string, importer?: string) {
+      if (id === virtualModuleId) {
+        const { name } = importer ? path.parse(importer) : { name: 'index' };
+        const thisId =
+          thisCommand === 'serve'
+            ? resolvedVirtualModuleId
+            : `${resolvedVirtualModuleId}:${name === 'index' ? lang : name}`;
+        return thisId;
       }
     },
 
-    configureServer(server: ViteDevServer) {
+    load(id: string) {
+      if (id.startsWith(resolvedVirtualModuleId)) {
+        const langFlag =
+          thisCommand === 'serve' ? lang : id.split(':').slice(-1)[0];
+        const thisLang = ['index', ''].includes(langFlag) ? 'en' : langFlag;
+        return `export default ${JSON.stringify(resumeCache[thisLang])}`;
+      }
+    },
+
+    async configureServer(server: ViteDevServer) {
       const reloadModule = async (moduleId: string) => {
         const mod = await server.moduleGraph.getModuleByUrl(moduleId);
 
@@ -106,13 +122,22 @@ export function loadResumePlugin(): PluginOption {
 
         if (newLang !== lang) {
           lang = newLang;
-          await reloadModule(resolvedVirtualModuleId);
+          const thisId =
+            thisCommand === 'serve'
+              ? resolvedVirtualModuleId
+              : `${resolvedVirtualModuleId}:${lang}`;
+          await reloadModule(thisId);
         }
 
         next();
       });
 
-      server.watcher.add(['./*.json', './src/mock/*.json']);
+      const projectPath = await fs.realpath('./');
+      const watchDir = [
+        join(projectPath, './*.json'),
+        join(projectPath, './src/mock/*.json')
+      ];
+      server.watcher.add(watchDir);
       server.watcher.on('all', watchResumeCB);
     }
   };
