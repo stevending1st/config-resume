@@ -80,14 +80,19 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
 
   await rimraf('./.config-resume');
 
-  await fs.ensureFile('./.gitignore');
-  const gitignoreBufferContent = await fs.readFile('./.gitignore');
-  const gitignoreContent = gitignoreBufferContent.toString('utf-8');
-  const hasProjectIgnore = gitignoreContent
-    .split('\n')
-    .some(value => value === '.config-resume' || value === '.config-resume\r');
-  if (!hasProjectIgnore) {
-    await fs.appendFile('./.gitignore', '.config-resume');
+  if (await fs.exists('./.gitignore')) {
+    const gitignoreBufferContent = await fs.readFile('./.gitignore');
+    const gitignoreContent = gitignoreBufferContent.toString('utf-8');
+    const hasProjectIgnore = gitignoreContent
+      .split('\n')
+      .some(
+        value => value === '.config-resume' || value === '.config-resume\r'
+      );
+    if (!hasProjectIgnore) {
+      await fs.appendFile('./.gitignore', '.config-resume');
+    }
+  } else {
+    fs.copy(join(crPath, 'template/.gitignore'), './.gitignore');
   }
 
   if (
@@ -179,7 +184,7 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
   };
 
   const i18nWatcher = chokidar.watch(
-    join(await fs.realpath('./i18n'), '*.json')
+    join(await fs.realpath('./'), 'i18n/*.json')
   );
   i18nWatcher.on('add', watchUserI18nAddAndChangeCb);
   i18nWatcher.on('change', watchUserI18nAddAndChangeCb);
