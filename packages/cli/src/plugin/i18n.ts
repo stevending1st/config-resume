@@ -1,6 +1,6 @@
 import i18n, { type I18nType } from '@config-resume/i18n';
 import fs from 'fs-extra';
-import path from 'path';
+import path, { join } from 'path';
 import { type PluginOption, ViteDevServer } from 'vite';
 
 export const mergeI18n = (baseI18n: I18nType, newI18n: I18nType) => {
@@ -56,6 +56,8 @@ export function i18nPlugin(): PluginOption {
   const virtualModuleId = 'virtual:config-resume:i18n';
   const resolvedVirtualModuleId = '\0' + virtualModuleId;
 
+  let thisCommand = 'build';
+
   let lang = 'en';
   let i18nWithThemeCache = i18n as I18nType;
   let i18nCache = i18n as I18nType;
@@ -65,24 +67,43 @@ export function i18nPlugin(): PluginOption {
     return mergeI18n(baseI18n, newI18n || {});
   };
 
+  let workPath = './';
+
   return {
     name: 'config-resume:i18n',
 
-    async options() {
-      i18nWithThemeCache = await renewI18n(
-        './node_modules/.config-remusu/i18n',
-        i18n
-      );
-      i18nCache = await renewI18n('./i18n', i18nWithThemeCache);
+    config(_, { command }) {
+      thisCommand = command;
     },
 
-    resolveId(id: string) {
-      if (id === virtualModuleId) return resolvedVirtualModuleId;
+    async options() {
+      workPath = await fs.realpath('./');
+      i18nWithThemeCache = await renewI18n(join(workPath, './i18n'), i18n);
+      if (workPath.endsWith('.config-resume')) {
+        i18nCache = await renewI18n(
+          join(workPath, './user-i18n'),
+          i18nWithThemeCache
+        );
+      }
+    },
+
+    resolveId(id: string, importer?: string) {
+      if (id === virtualModuleId) {
+        const { name } = importer ? path.parse(importer) : { name: 'index' };
+        const thisId =
+          thisCommand === 'serve'
+            ? resolvedVirtualModuleId
+            : `${resolvedVirtualModuleId}:${name === 'index' ? lang : name}`;
+        return thisId;
+      }
     },
 
     load(id: string) {
-      if (id === resolvedVirtualModuleId) {
-        return `export default ${JSON.stringify(i18nCache[lang])}`;
+      if (id.startsWith(resolvedVirtualModuleId)) {
+        const langFlag =
+          thisCommand === 'serve' ? lang : id.split(':').slice(-1)[0];
+        const thisLang = ['index', ''].includes(langFlag) ? 'en' : langFlag;
+        return `export default ${JSON.stringify(i18nCache[thisLang])}`;
       }
     },
 
@@ -94,7 +115,11 @@ export function i18nPlugin(): PluginOption {
       };
 
       const watchI18nCB = async () => {
-        i18nCache = await renewI18n('./i18n', i18nWithThemeCache);
+        const watchDir = join(
+          workPath,
+          workPath.endsWith('.config-resume') ? './user-i18n' : './i18n'
+        );
+        i18nCache = await renewI18n(watchDir, i18nWithThemeCache);
         await reloadModule(resolvedVirtualModuleId);
       };
 
@@ -113,13 +138,21 @@ export function i18nPlugin(): PluginOption {
 
         if (newLang !== lang) {
           lang = newLang;
-          await reloadModule(resolvedVirtualModuleId);
+          const thisId =
+            thisCommand === 'serve'
+              ? resolvedVirtualModuleId
+              : `${resolvedVirtualModuleId}:${lang}`;
+          await reloadModule(thisId);
         }
 
         next();
       });
 
-      server.watcher.add('./i18n/*.json');
+      const watchFiles = join(
+        workPath,
+        `./${workPath.endsWith('.config-resume') ? 'user-i18n' : 'i18n'}/*.json`
+      );
+      server.watcher.add(watchFiles);
       server.watcher.on('add', watchI18nCB);
       server.watcher.on('change', watchI18nCB);
       server.watcher.on('unlink', watchI18nCB);
