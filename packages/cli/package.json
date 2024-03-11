@@ -22,8 +22,7 @@
     "client",
     "dist",
     "template",
-    "index.d.ts",
-    "template/.gitignore"
+    "index.d.ts"
   ],
   "scripts": {
     "build": "tsup src/index.ts src/cli.ts",

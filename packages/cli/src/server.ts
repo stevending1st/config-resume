@@ -92,7 +92,7 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
       await fs.appendFile('./.gitignore', '.config-resume');
     }
   } else {
-    fs.copy(join(crPath, 'template/.gitignore'), './.gitignore');
+    fs.copy(join(crPath, 'template/.template-gitignore'), './.gitignore');
   }
 
   if (
