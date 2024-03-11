@@ -26,6 +26,8 @@
     "@config-resume/types": "workspace:^",
     "astro": "^4.4.4",
     "fs-extra": "^11.2.0",
+    "global-directory": "^4.0.1",
+    "is-installed-globally": "^1.0.0",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
