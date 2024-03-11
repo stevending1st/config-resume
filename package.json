@@ -16,7 +16,7 @@
     "test": "npm run lint-staged",
     "prepare": "husky",
     "release": "bumpp package.json packages/*/package.json",
-    "publish": "pnpm publish -r --access public"
+    "pub": "pnpm publish -r --access public"
   },
   "author": "stevending1st",
   "license": "MIT",
