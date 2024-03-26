@@ -14,13 +14,13 @@ export const buildAstro = (config?: AstroInlineConfig) => {
 
   process.chdir('./.config-resume');
 
-  build({
+  return build({
     outDir: '../dist',
     base
   });
 };
 
-export const previewAstro = async (config?: AstroInlineConfig) => {
+export const previewAstro = (config?: AstroInlineConfig) => {
   const { base } = config ?? {};
 
   return preview({

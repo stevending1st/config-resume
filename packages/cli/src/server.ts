@@ -183,24 +183,6 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
     await fs.remove(join(mockDir, baseName));
   });
 
-  // watch static files
-  const destPublicDir = await fs.realpath('./.config-resume/public');
-  const watchStaticFileAddAndChangeCb = async (filePath: string) => {
-    const fileName = basename(filePath);
-    const destFile = join(destPublicDir, fileName);
-    await fs.copy(filePath, destFile);
-  };
-
-  const staticFileWatcher = chokidar.watch(join(rootRealpath, '/public'), {
-    ignored: join(rootRealpath, '/public/theme')
-  });
-  staticFileWatcher.on('add', watchStaticFileAddAndChangeCb);
-  staticFileWatcher.on('change', watchStaticFileAddAndChangeCb);
-  staticFileWatcher.on('unlink', async filePath => {
-    const baseName = basename(filePath);
-    await fs.remove(join(destPublicDir, baseName));
-  });
-
   // watch i18n
   await fs.emptyDir('./.config-resume/user-i18n');
   const userI18nDir = await fs.realpath('./.config-resume/user-i18n');
@@ -231,10 +213,29 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
     await fs.remove(join(userI18nDir, baseName));
   });
 
+  // watch static files
+  const destPublicDir = await fs.realpath('./.config-resume/public');
+  const watchStaticFileAddAndChangeCb = async (filePath: string) => {
+    const fileName = basename(filePath);
+    const destFile = join(destPublicDir, fileName);
+    await fs.copy(filePath, destFile);
+  };
+
+  const staticFileWatcher = chokidar.watch(join(rootRealpath, '/public'), {
+    ignored: join(rootRealpath, '/public/theme')
+  });
+  staticFileWatcher.on('add', watchStaticFileAddAndChangeCb);
+  staticFileWatcher.on('change', watchStaticFileAddAndChangeCb);
+  staticFileWatcher.on('unlink', async filePath => {
+    const baseName = basename(filePath);
+    await fs.remove(join(destPublicDir, baseName));
+  });
+
   // close watch
   if (action === 'build') {
     await resumeWatcher.close();
     await i18nWatcher.close();
+    await staticFileWatcher.close();
   }
 
   return true;
