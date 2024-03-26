@@ -191,7 +191,9 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
     await fs.copy(filePath, destFile);
   };
 
-  const staticFileWatcher = chokidar.watch(join(rootRealpath, '/public'));
+  const staticFileWatcher = chokidar.watch(join(rootRealpath, '/public'), {
+    ignored: join(rootRealpath, '/public/theme')
+  });
   staticFileWatcher.on('add', watchStaticFileAddAndChangeCb);
   staticFileWatcher.on('change', watchStaticFileAddAndChangeCb);
   staticFileWatcher.on('unlink', async filePath => {
