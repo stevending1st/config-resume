@@ -1,6 +1,7 @@
 import path, { basename, join } from 'node:path';
 
 import { parseNi, run } from '@antfu/ni';
+import { type AstroInlineConfig } from 'astro';
 import chokidar from 'chokidar';
 import { execa } from 'execa';
 import fs from 'fs-extra';
@@ -221,24 +222,24 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
   return true;
 };
 
-export const createDev = async () => {
+export const createDev = async (config?: AstroInlineConfig) => {
   const isSuccess = await pretreatment('dev');
 
   if (!isSuccess) return;
 
   process.chdir('./.config-resume');
 
-  await createAstroServer();
+  await createAstroServer(config);
 };
 
-export const createBuild = async () => {
+export const createBuild = async (config?: AstroInlineConfig) => {
   const isSuccess = await pretreatment('build');
 
   if (!isSuccess) return;
 
-  await buildAstro();
+  await buildAstro(config);
 };
 
-export const createPreview = async () => {
-  await previewAstro();
+export const createPreview = async (config?: AstroInlineConfig) => {
+  await previewAstro(config);
 };

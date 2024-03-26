@@ -1,18 +1,30 @@
-import { build, dev, preview } from 'astro';
+import { AstroInlineConfig, build, dev, preview } from 'astro';
 
-export const createAstroServer = () =>
-  dev({
-    root: '.'
+export const createAstroServer = (config?: AstroInlineConfig) => {
+  const { base } = config ?? {};
+
+  return dev({
+    root: '.',
+    base
   });
-
-export const buildAstro = () => {
-  process.chdir('./.config-resume');
-
-  build({ outDir: '../dist' });
 };
 
-export const previewAstro = async () => {
-  await preview({
-    outDir: './dist'
+export const buildAstro = (config?: AstroInlineConfig) => {
+  const { base } = config ?? {};
+
+  process.chdir('./.config-resume');
+
+  build({
+    outDir: '../dist',
+    base
+  });
+};
+
+export const previewAstro = async (config?: AstroInlineConfig) => {
+  const { base } = config ?? {};
+
+  return preview({
+    outDir: './dist',
+    base
   });
 };

@@ -18,34 +18,44 @@ cli.command(
   'Example of passing parameters',
   args =>
     args
-      .positional('parameter', {
-        type: 'string',
-        describe: 'You can pass in a string as a parameter'
-      })
-      .option('option', {
-        alias: 'o',
-        type: 'string',
-        describe: 'Options (such as option1, option2)',
-        choices: ['option1', 'option2'],
-        array: true
+      .option('b', {
+        alias: 'base',
+        describe: 'The base path to deploy to.',
+        type: 'string'
       })
       .strict()
       .help(),
-  () => createDev()
+  ({ base }) => createDev({ base: base as string | undefined })
 );
 
 cli.command(
   'build',
   'build',
-  args => args.strict().help(),
-  () => createBuild()
+  args =>
+    args
+      .option('b', {
+        alias: 'base',
+        describe: 'The base path to deploy to.',
+        type: 'string'
+      })
+      .strict()
+      .help(),
+  ({ base }) => createBuild({ base: base as string | undefined })
 );
 
 cli.command(
   'preview',
   'preview',
-  args => args.strict().help(),
-  () => createPreview()
+  args =>
+    args
+      .option('b', {
+        alias: 'base',
+        describe: 'The base path to deploy to.',
+        type: 'string'
+      })
+      .strict()
+      .help(),
+  ({ base }) => createPreview({ base: base as string | undefined })
 );
 
 cli
