@@ -154,6 +154,8 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
     await fs.remove(pageFilePath);
   }
 
+  const rootRealpath = await fs.realpath('./');
+
   // watch resume files
   const mockDir = await fs.realpath('./.config-resume/src/mock');
   await fs.emptyDir(mockDir);
@@ -173,14 +175,30 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
     }
   };
 
-  const resumeWatcher = chokidar.watch(
-    join(await fs.realpath('./'), 'resume.*.json')
-  );
+  const resumeWatcher = chokidar.watch(join(rootRealpath, 'resume.*.json'));
   resumeWatcher.on('add', watchResumeAddAndChangeCb);
   resumeWatcher.on('change', watchResumeAddAndChangeCb);
   resumeWatcher.on('unlink', async filePath => {
     const baseName = basename(filePath);
     await fs.remove(join(mockDir, baseName));
+  });
+
+  // watch static files
+  const destPublicDir = await fs.realpath('./.config-resume/public');
+  const watchStaticFileAddAndChangeCb = async (filePath: string) => {
+    const fileName = basename(filePath);
+    const destFile = join(destPublicDir, fileName);
+    await fs.copy(filePath, destFile);
+  };
+
+  const staticFileWatcher = chokidar.watch(join(rootRealpath, '/public'), {
+    ignored: join(rootRealpath, '/public/theme')
+  });
+  staticFileWatcher.on('add', watchStaticFileAddAndChangeCb);
+  staticFileWatcher.on('change', watchStaticFileAddAndChangeCb);
+  staticFileWatcher.on('unlink', async filePath => {
+    const baseName = basename(filePath);
+    await fs.remove(join(destPublicDir, baseName));
   });
 
   // watch i18n
