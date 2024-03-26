@@ -1,6 +1,6 @@
 {
   "name": "@config-resume/cli",
-  "version": "0.0.1-alpha.4",
+  "version": "0.0.1-alpha.5",
   "description": "Generate a resume web page through a profile.",
   "author": "stevending1st",
   "license": "MIT",
