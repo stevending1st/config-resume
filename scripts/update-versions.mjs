@@ -21,7 +21,7 @@ for (const template of templates) {
   for (const name of deps) {
     if (!pkg[name]) continue;
 
-    const pkgMap = new Map(pkg[name]);
+    const pkgMap = new Map(Object.entries(pkg[name]));
     for(const [key] of pkgMap) {
       if(key.startsWith('@config-resume')) pkgMap.set(key, version);
     }
