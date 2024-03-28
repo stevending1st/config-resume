@@ -1,6 +1,6 @@
 {
   "name": "@config-resume/types",
-  "version": "0.0.1-alpha.6",
+  "version": "0.0.1-alpha.7",
   "description": "Share type of config-resume.",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",

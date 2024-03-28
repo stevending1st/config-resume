@@ -8,6 +8,6 @@
     "preview": "cr preview"
   },
   "devDependencies": {
-    "@config-resume/cli": "0.0.1-alpha.6"
+    "@config-resume/cli": "0.0.1-alpha.7"
   }
 }
