@@ -9,6 +9,7 @@ import isInstalledGlobally from 'is-installed-globally';
 import { rimraf } from 'rimraf';
 
 import { buildAstro, createAstroServer, previewAstro } from './astro';
+import { readConfig } from './config';
 import {
   findNpmAndYarnGlobalPkgPath,
   findPkgPath,
@@ -72,6 +73,10 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
     return;
   }
 
+  // load config
+  const { config, sources } = await readConfig();
+  console.log(`load config: ${sources[0]}`);
+
   // resume file
   const langList = (await getLangListFromFile()).filter(
     value => value === value.toLowerCase()
@@ -113,20 +118,22 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
 
   await run(parseNi, []);
 
+  // delete .config-resume
   await rimraf('./.config-resume');
 
-  // delete .config-resume
-  let themePath = await findNpmAndYarnGlobalPkgPath('@config-resume/theme');
+  const themeName = config?.theme ?? '@config-resume/theme';
+  console.log(`Use themes: ${themeName}`);
+  let themePath = await findNpmAndYarnGlobalPkgPath(themeName);
 
   if (!themePath) {
     // install theme
-    await execa('npm', ['install', '-g', '@config-resume/theme'], {
+    await execa('npm', ['install', '-g', themeName], {
       stdio: 'inherit'
     });
-    themePath = await findNpmAndYarnGlobalPkgPath('@config-resume/theme');
+    themePath = await findNpmAndYarnGlobalPkgPath(themeName);
   }
 
-  // copy @config-resume/theme
+  // copy theme file
   if (!themePath) {
     console.log('Unable to find template file');
     return false;
