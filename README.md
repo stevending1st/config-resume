@@ -103,10 +103,10 @@ For more information about `base`, please refer to: https://docs.astro.build/en/
 
 ## Roadmap
 
-- Support for configuration files;
+- ✅ Support for configuration files;
 - Theme switching language support;
 - YAML file support;
-- Support for custom themes;
+- ✅ Support for custom themes;
 - Support for global installation of theme packages via pnpm;
 - ...
 
