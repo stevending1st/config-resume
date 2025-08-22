@@ -1,4 +1,4 @@
-import { I18nItemType } from './en';
+import { I18nItemType } from './type';
 
 export const zh: I18nItemType = {
   awards: '奖项',
