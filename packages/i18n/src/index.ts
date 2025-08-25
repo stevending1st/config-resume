@@ -4,6 +4,7 @@ import { type I18nType } from './type';
 import zh from './zh';
 import zh_cn from './zh-cn';
 
+export * from './supportedLanguage';
 export * from './type';
 
 export default {
