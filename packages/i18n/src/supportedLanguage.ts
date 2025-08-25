@@ -1,6 +1,6 @@
 import { SupportedLanguage } from '@config-resume/types';
 
-export const languages: SupportedLanguage[] = [
+export const supportedLanguages: SupportedLanguage[] = [
   { code: 'en', name: 'English' },
   { code: 'en-us', name: 'English' },
 
