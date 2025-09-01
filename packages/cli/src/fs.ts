@@ -72,3 +72,36 @@ export const safeCopyWithoutCover = async (src: string, dest: string) => {
 
   return true;
 };
+
+export const findFileDirs = async (
+  folders: string | string[],
+  fileRegExp: RegExp
+) => {
+  const folderArr = Array.isArray(folders) ? folders : [folders];
+
+  const getFilesFromFolder = async (folder: string, fileRegExp: RegExp) => {
+    const folderRealPath = await fs.realpath(folder);
+
+    const folderStat = await fs.stat(folderRealPath);
+    if (!folderStat.isDirectory()) return [];
+
+    const filesInFoler = [];
+
+    const dirsInFolder = await fs.readdir(folderRealPath);
+    for (const dir of dirsInFolder) {
+      const dirRealPath = join(folderRealPath, dir);
+      const dirStat = await fs.stat(dirRealPath);
+      if (dirStat.isFile() && fileRegExp.test(dir)) {
+        filesInFoler.push(dir);
+      }
+    }
+
+    return filesInFoler;
+  };
+
+  const fileArr = await Promise.all(
+    folderArr.map(folder => getFilesFromFolder(folder, fileRegExp))
+  );
+
+  return fileArr.reduce((pre, cur) => [...pre, ...cur], []);
+};

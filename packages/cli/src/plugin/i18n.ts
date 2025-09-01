@@ -1,7 +1,10 @@
-import i18n, { type I18nType } from '@config-resume/i18n';
+import i18n, { type I18nType, supportedLanguages } from '@config-resume/i18n';
+import { SupportedLanguage } from '@config-resume/types';
 import fs from 'fs-extra';
 import path, { join } from 'path';
 import { type PluginOption, ViteDevServer } from 'vite';
+
+import { findFileDirs } from '../fs';
 
 export const mergeI18n = (baseI18n: I18nType, newI18n: I18nType) => {
   const resultI18n: I18nType = {};
@@ -52,6 +55,38 @@ const loadI18nFolder = async (dir: string) => {
   return i18n;
 };
 
+const mergeAndFilterSupportedLangs = (
+  baseSupporedLangs: SupportedLanguage[],
+  userLangs: string[]
+) => {
+  const supporedLangs = baseSupporedLangs.filter(({ code }) =>
+    userLangs.includes(code)
+  );
+
+  for (const lang of userLangs) {
+    if (supporedLangs.findIndex(({ code }) => code == lang) === -1) {
+      supporedLangs.push({ code: lang, name: lang });
+    }
+  }
+
+  return supporedLangs;
+};
+
+const markCurrentLang = (
+  supporedLangs: SupportedLanguage[],
+  currentLang?: string
+) =>
+  supporedLangs.map(({ code, ...other }) => ({
+    code,
+    ...other,
+    isCurrent: code === currentLang
+  }));
+
+const i18nPluginLoad = (defaultValue: string, languages?: string) =>
+  `export const supportedLanguages = ${languages ?? '[]'};
+
+export default ${defaultValue};`;
+
 export function i18nPlugin(): PluginOption {
   const virtualModuleId = 'virtual:config-resume:i18n';
   const resolvedVirtualModuleId = '\0' + virtualModuleId;
@@ -61,13 +96,31 @@ export function i18nPlugin(): PluginOption {
   let lang = 'en';
   let i18nWithThemeCache = i18n as I18nType;
   let i18nCache = i18n as I18nType;
+  let mySupporedLangusges = [] as SupportedLanguage[];
 
   const renewI18n = async (dir: string, baseI18n: I18nType) => {
     const newI18n = await loadI18nFolder(dir);
     return mergeI18n(baseI18n, newI18n || {});
   };
 
+  const renewSupportedLanguages = async (
+    folders: string | string[],
+    baseSupportedLanguages: SupportedLanguage[]
+  ) => {
+    const dirs = await findFileDirs(folders, /^resume\.[-\w]+\.json$/);
+
+    const langs = dirs
+      .map(dir => {
+        const match = /^resume\.([-\w]+)\.json$/.exec(dir);
+        return match ? match[1] : '';
+      })
+      .filter(lang => !!lang);
+
+    return mergeAndFilterSupportedLangs(baseSupportedLanguages, langs);
+  };
+
   let workPath = './';
+  const resumeFolders: string[] = ['./', './src/mock/'];
 
   return {
     name: 'config-resume:i18n',
@@ -85,6 +138,10 @@ export function i18nPlugin(): PluginOption {
           i18nWithThemeCache
         );
       }
+      mySupporedLangusges = await renewSupportedLanguages(
+        resumeFolders,
+        supportedLanguages
+      );
     },
 
     resolveId(id: string, importer?: string) {
@@ -103,7 +160,10 @@ export function i18nPlugin(): PluginOption {
         const langFlag =
           thisCommand === 'serve' ? lang : id.split(':').slice(-1)[0];
         const thisLang = ['index', ''].includes(langFlag) ? 'en' : langFlag;
-        return `export default ${JSON.stringify(i18nCache[thisLang])}`;
+        return i18nPluginLoad(
+          JSON.stringify(i18nCache[thisLang]),
+          JSON.stringify(markCurrentLang(mySupporedLangusges, thisLang))
+        );
       }
     },
 
@@ -120,6 +180,14 @@ export function i18nPlugin(): PluginOption {
           workPath.endsWith('.config-resume') ? './user-i18n' : './i18n'
         );
         i18nCache = await renewI18n(watchDir, i18nWithThemeCache);
+        await reloadModule(resolvedVirtualModuleId);
+      };
+
+      const watchSupportedLanguagesCB = async () => {
+        mySupporedLangusges = await renewSupportedLanguages(
+          resumeFolders,
+          supportedLanguages
+        );
         await reloadModule(resolvedVirtualModuleId);
       };
 
@@ -148,6 +216,7 @@ export function i18nPlugin(): PluginOption {
         next();
       });
 
+      // watch i18n files
       const watchFiles = join(
         workPath,
         `./${workPath.endsWith('.config-resume') ? 'user-i18n' : 'i18n'}/*.json`
@@ -156,6 +225,16 @@ export function i18nPlugin(): PluginOption {
       server.watcher.on('add', watchI18nCB);
       server.watcher.on('change', watchI18nCB);
       server.watcher.on('unlink', watchI18nCB);
+
+      // watch supporedLangusges
+      const watchSupportedLanguagesDir = [
+        join(workPath, './resume.*.json'),
+        join(workPath, './src/mock/resume.*.json')
+      ];
+      server.watcher.add(watchSupportedLanguagesDir);
+      server.watcher.on('add', watchSupportedLanguagesCB);
+      server.watcher.on('change', watchSupportedLanguagesCB);
+      server.watcher.on('unlink', watchSupportedLanguagesCB);
     }
   };
 }
