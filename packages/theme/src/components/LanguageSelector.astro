@@ -1,0 +1,62 @@
+---
+import type { SupportedLanguage } from '@config-resume/types';
+import Local from '../icon/Local.astro';
+import MdiCheck from '../icon/MdiCheck.astro';
+
+const { supportedLanguages = [] } = Astro.props as Record<
+  'supportedLanguages',
+  SupportedLanguage[]
+>;
+---
+
+<details class="relative group">
+  <summary
+    class="flex items-center gap-2 px-2 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors w-8"
+  >
+    <Local />
+  </summary>
+
+  <div
+    class="absolute right-0 z-10 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden"
+  >
+    <ul class="max-h-60 overflow-y-auto">
+      {
+        supportedLanguages?.map(lang => (
+          <li>
+            <a
+              href={`/${lang.code}`}
+              class={`flex items-center gap-2 px-4 py-2 hover:bg-gray-100 transition-colors ${
+                lang?.isCurrent ? 'bg-blue-50 font-medium justify-between' : ''
+              }`}
+            >
+              <span>{lang.name}</span>
+
+              {lang?.isCurrent && (
+                <span>
+                  <MdiCheck />
+                </span>
+              )}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</details>
+
+<style>
+  /* 自定义滚动条样式 */
+  details ul::-webkit-scrollbar {
+    width: 6px;
+  }
+  details ul::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  details ul::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+  }
+  details ul::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+</style>

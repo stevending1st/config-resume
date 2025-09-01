@@ -1,4 +1,6 @@
 declare module 'virtual:config-resume:i18n' {
+  export const supportedLanguages: import('@config-resume/types').SupportedLanguage[];
+
   export default import('@config-resume/i18n').I18nItemExpansionType;
 }
 

@@ -12,9 +12,10 @@ import Skills from '../components/Skills.astro';
 import Summary from '../components/Summary.astro';
 import Volunteer from '../components/Volunteer.astro';
 import Work from '../components/Work.astro';
+import LanguageSelector from '../components/LanguageSelector.astro';
 import Layout from '../layouts/Layout.astro';
 
-import lang from 'virtual:config-resume:i18n';
+import lang, { supportedLanguages } from 'virtual:config-resume:i18n';
 import resume from 'virtual:config-resume:resume';
 
 const {
@@ -37,39 +38,52 @@ const { summary, ...otherBasics } = basics || {};
 <Layout title="Welcome to Astro.">
   <main class="flex w-full min-h-screen bg-slate-200 justify-center">
     <div
-      class="max-lg:w-full w-[64rem] print:w-full max-sm:px-4 max-md:px-10 max-lg:px-20 px-24 max-sm:py-5 max-lg:py-20 py-20 max-sm:my-0 my-10 print:my-0 bg-white my-15 drop-shadow-xl print:drop-shadow-none border border-gray-300 print:border-none divide-y divide-gray-400 divide-dashed *:py-5"
+      class="max-lg:w-full w-[64rem] print:w-full max-sm:px-4 max-md:px-10 max-lg:px-20 px-24 max-sm:py-5 max-lg:py-20 py-20 max-sm:my-0 my-10 print:my-0 bg-white my-15 drop-shadow-xl print:drop-shadow-none border border-gray-300 print:border-none"
     >
-      <Basics {...otherBasics} />
+      {
+        supportedLanguages.length !== 0 && supportedLanguages.length !== 1 && (
+          <div class="flex justify-end print:hidden">
+            <LanguageSelector supportedLanguages={supportedLanguages} />
+          </div>
+        )
+      }
 
-      <Summary componentNameText={lang.summary} summary={summary} />
+      <div class="divide-y divide-gray-400 divide-dashed *:py-5">
+        <Basics {...otherBasics} />
 
-      <Education componentNameText={lang.education} education={education} />
+        <Summary componentNameText={lang.summary} summary={summary} />
 
-      <Certificates
-        componentNameText={lang.certificates}
-        certificates={certificates}
-      />
+        <Education componentNameText={lang.education} education={education} />
 
-      <Skills componentNameText={lang.skills} skills={skills} />
+        <Certificates
+          componentNameText={lang.certificates}
+          certificates={certificates}
+        />
 
-      <Projects componentNameText={lang.projects} projects={projects} />
+        <Skills componentNameText={lang.skills} skills={skills} />
 
-      <Languages componentNameText={lang.languages} languages={languages} />
+        <Projects componentNameText={lang.projects} projects={projects} />
 
-      <Work componentNameText={lang.work} work={work} />
+        <Languages componentNameText={lang.languages} languages={languages} />
 
-      <Publications
-        componentNameText={lang.publications}
-        publications={publications}
-      />
+        <Work componentNameText={lang.work} work={work} />
 
-      <Awards componentNameText={lang.awards} awards={awards} />
+        <Publications
+          componentNameText={lang.publications}
+          publications={publications}
+        />
 
-      <Interests componentNameText={lang.interests} interests={interests} />
+        <Awards componentNameText={lang.awards} awards={awards} />
 
-      <Volunteer componentNameText={lang.volunteer} volunteer={volunteer} />
+        <Interests componentNameText={lang.interests} interests={interests} />
 
-      <References componentNameText={lang.references} references={references} />
+        <Volunteer componentNameText={lang.volunteer} volunteer={volunteer} />
+
+        <References
+          componentNameText={lang.references}
+          references={references}
+        />
+      </div>
     </div>
   </main>
 </Layout>
