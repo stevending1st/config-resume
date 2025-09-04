@@ -15,7 +15,7 @@ import {
   findNpmAndYarnGlobalPkgPath,
   findPkgPath,
   safeCopyWithoutCover
-} from './fs';
+} from './utils/fs';
 
 export const getLangListFromFile = async () => {
   const dirs = await fs.readdir('./');

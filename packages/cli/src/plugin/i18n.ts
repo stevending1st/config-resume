@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import path, { join } from 'path';
 import { type PluginOption, ViteDevServer } from 'vite';
 
-import { findFileDirs } from '../fs';
+import { findFileDirs } from '../utils/fs';
 
 export const mergeI18n = (baseI18n: I18nType, newI18n: I18nType) => {
   const resultI18n: I18nType = {};
