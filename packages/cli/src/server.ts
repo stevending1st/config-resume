@@ -7,6 +7,7 @@ import { execa } from 'execa';
 import fs from 'fs-extra';
 import isInstalledGlobally from 'is-installed-globally';
 import { rimraf } from 'rimraf';
+import yaml from 'yaml';
 
 import { buildAstro, createAstroServer, previewAstro } from './astro';
 import { readConfig } from './config';
@@ -114,6 +115,44 @@ export const pretreatment = async (action: 'dev' | 'build' = 'dev') => {
   ) {
     console.log('Failed to create package.json.');
     return;
+  }
+
+  // copy pnpm-workspace.yaml
+  if (await fs.exists('./pnpm-workspace.yaml')) {
+    const pnpmWorkspaceContent = await fs.readFile('./pnpm-workspace.yaml', {
+      encoding: 'utf-8'
+    });
+    let pnpmWorkspace = yaml.parse(pnpmWorkspaceContent);
+    let hasRemainingDependencies = false;
+    if (pnpmWorkspace === null) {
+      pnpmWorkspace = {};
+      pnpmWorkspace.ignoredBuiltDependencies = ['sharp', 'esbuild'];
+      hasRemainingDependencies = true;
+    } else if (pnpmWorkspace.ignoredBuiltDependencies === null) {
+      pnpmWorkspace.ignoredBuiltDependencies = ['sharp', 'esbuild'];
+      hasRemainingDependencies = true;
+    } else if (
+      pnpmWorkspace.ignoredBuiltDependencies &&
+      Array.isArray(pnpmWorkspace.ignoredBuiltDependencies)
+    ) {
+      const remainingDependencies = ['sharp', 'esbuild'].filter(
+        item =>
+          !(pnpmWorkspace.ignoredBuiltDependencies as string[]).includes(item)
+      );
+      if (remainingDependencies.length > 0) {
+        hasRemainingDependencies = true;
+        pnpmWorkspace.ignoredBuiltDependencies = (
+          pnpmWorkspace.ignoredBuiltDependencies as string[]
+        ).concat(remainingDependencies);
+      }
+    }
+    if (hasRemainingDependencies)
+      fs.writeFile('./pnpm-workspace.yaml', yaml.stringify(pnpmWorkspace));
+  } else {
+    await fs.copy(
+      join(crPath, 'template/pnpm-workspace.yaml'),
+      './pnpm-workspace.yaml'
+    );
   }
 
   await run(parseNi, []);
