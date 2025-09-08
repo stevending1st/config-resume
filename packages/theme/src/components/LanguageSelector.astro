@@ -24,7 +24,7 @@ const { supportedLanguages = [] } = Astro.props as Record<
         supportedLanguages?.map(lang => (
           <li>
             <a
-              href={`/${lang.code}`}
+              href={`${lang.path}`}
               class={`flex items-center gap-2 px-4 py-2 hover:bg-gray-100 transition-colors ${
                 lang?.isCurrent ? 'bg-blue-50 font-medium justify-between' : ''
               }`}

@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import path, { join } from 'path';
 import { type PluginOption, ViteDevServer } from 'vite';
 
-import { findFileDirs } from '../fs';
+import { findFileDirs } from '../utils/fs';
 
 export const mergeI18n = (baseI18n: I18nType, newI18n: I18nType) => {
   const resultI18n: I18nType = {};
@@ -57,15 +57,24 @@ const loadI18nFolder = async (dir: string) => {
 
 const mergeAndFilterSupportedLangs = (
   baseSupporedLangs: SupportedLanguage[],
-  userLangs: string[]
+  userLangs: string[],
+  command: string
 ) => {
-  const supporedLangs = baseSupporedLangs.filter(({ code }) =>
-    userLangs.includes(code)
-  );
+  const supporedLangs = baseSupporedLangs
+    .filter(({ code }) => userLangs.includes(code))
+    .map(({ code, ...others }) => ({
+      ...others,
+      code,
+      path: `${command === 'build' ? '/' : '?lang='}${code}`
+    }));
 
   for (const lang of userLangs) {
     if (supporedLangs.findIndex(({ code }) => code == lang) === -1) {
-      supporedLangs.push({ code: lang, name: lang });
+      supporedLangs.push({
+        code: lang,
+        path: `${command === 'build' ? '/' : '?lang='}${lang}`,
+        name: lang
+      });
     }
   }
 
@@ -105,7 +114,8 @@ export function i18nPlugin(): PluginOption {
 
   const renewSupportedLanguages = async (
     folders: string | string[],
-    baseSupportedLanguages: SupportedLanguage[]
+    baseSupportedLanguages: SupportedLanguage[],
+    command = 'build'
   ) => {
     const dirs = await findFileDirs(folders, /^resume\.[-\w]+\.json$/);
 
@@ -116,7 +126,7 @@ export function i18nPlugin(): PluginOption {
       })
       .filter(lang => !!lang);
 
-    return mergeAndFilterSupportedLangs(baseSupportedLanguages, langs);
+    return mergeAndFilterSupportedLangs(baseSupportedLanguages, langs, command);
   };
 
   let workPath = './';
@@ -140,7 +150,8 @@ export function i18nPlugin(): PluginOption {
       }
       mySupporedLangusges = await renewSupportedLanguages(
         resumeFolders,
-        supportedLanguages
+        supportedLanguages,
+        thisCommand
       );
     },
 
@@ -186,7 +197,8 @@ export function i18nPlugin(): PluginOption {
       const watchSupportedLanguagesCB = async () => {
         mySupporedLangusges = await renewSupportedLanguages(
           resumeFolders,
-          supportedLanguages
+          supportedLanguages,
+          thisCommand
         );
         await reloadModule(resolvedVirtualModuleId);
       };
