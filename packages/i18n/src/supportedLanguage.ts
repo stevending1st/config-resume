@@ -1,15 +1,15 @@
 import { SupportedLanguage } from '@config-resume/types';
 
 export const supportedLanguages: SupportedLanguage[] = [
-  { code: 'en', name: 'English' },
-  { code: 'en-us', name: 'English' },
+  { code: 'en', path: '', name: 'English' },
+  { code: 'en-us', path: '', name: 'English' },
 
-  { code: 'zh-cn', name: '简体中文' },
-  { code: 'zh', name: '简体中文' }
+  { code: 'zh-cn', path: '', name: '简体中文' },
+  { code: 'zh', path: '', name: '简体中文' }
 
-  // { code: 'ja', name: '日本語' },
-  // { code: 'ko', name: '한국어' },
-  // { code: 'fr', name: 'Français' },
-  // { code: 'de', name: 'Deutsch' },
-  // { code: 'es', name: 'Español' }
+  // { code: 'ja', path: "", name: '日本語' },
+  // { code: 'ko', path: "", name: '한국어' },
+  // { code: 'fr', path: "", name: 'Français' },
+  // { code: 'de', path: "", name: 'Deutsch' },
+  // { code: 'es', path: "", name: 'Español' }
 ];
