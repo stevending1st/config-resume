@@ -2,9 +2,13 @@ export type Highlights = Record<'highlights', string[]>;
 
 export type Keywords = Record<'keywords', string[]>;
 
-export type Location = Partial<
-  Record<'address' | 'postalCode' | 'city' | 'countryCode' | 'region', string>
->;
+export type LocationKey =
+  | 'address'
+  | 'postalCode'
+  | 'city'
+  | 'countryCode'
+  | 'region';
+export type Location = Partial<Record<LocationKey, string>>;
 
 export type Profile = Partial<Record<'network' | 'username' | 'url', string>>;
 
