@@ -1,4 +1,5 @@
 import { I18nItemType } from './type';
+import { createAddressFormatter } from './utils/formatAddressForLocale';
 
 export const en: I18nItemType = {
   awards: 'awards',
@@ -13,7 +14,13 @@ export const en: I18nItemType = {
   skills: 'skills',
   summary: 'summary',
   volunteer: 'volunteer',
-  work: 'work'
+  work: 'work',
+
+  addressFormatter: createAddressFormatter([
+    ['address'],
+    ['city', 'region', 'postalCode'],
+    ['countryCode']
+  ])
 };
 
 export default en;

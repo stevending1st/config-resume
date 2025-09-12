@@ -1,4 +1,5 @@
 import { I18nItemType } from './type';
+import { createAddressFormatter } from './utils/formatAddressForLocale';
 
 export const zh: I18nItemType = {
   awards: '奖项',
@@ -13,7 +14,11 @@ export const zh: I18nItemType = {
   skills: '技能',
   summary: '简介',
   volunteer: '志愿',
-  work: '工作'
+  work: '工作',
+
+  addressFormatter: createAddressFormatter([
+    ['countryCode', 'region', 'city', 'address', 'postalCode']
+  ])
 };
 
 export default zh;
