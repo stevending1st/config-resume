@@ -1,4 +1,4 @@
-import { Location, LocationKey } from '@config-resume/types';
+import { LocationKey } from '@config-resume/types';
 
 export type LocationArrayItem = Record<'key' | 'value', string>;
 export type LocationKeyArray = Array<Array<LocationKey>>;
@@ -20,10 +20,7 @@ export type I18nItemType = Record<
   | 'work',
   string
 > & {
-  addressFormatter: (
-    location: Location,
-    userAddressForLocaleArray: LocationKeyArray
-  ) => LocationArrayItem[][];
+  addressForLocaleArray: LocationKeyArray;
 };
 
 export type I18nItemSubType = Partial<I18nItemType>;

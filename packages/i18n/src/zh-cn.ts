@@ -1,7 +1,7 @@
-import { I18nItemType } from './type';
+import { I18nItemSubType } from './type';
 import zh from './zh';
 
-export const zh_cn: I18nItemType = {
+export const zh_cn: I18nItemSubType = {
   ...zh
 };
 

@@ -1,7 +1,6 @@
-import { I18nItemType } from './type';
-import { createAddressFormatter } from './utils/formatAddressForLocale';
+import { I18nItemSubType } from './type';
 
-export const en: I18nItemType = {
+export const en: I18nItemSubType = {
   awards: 'awards',
   basics: 'basics',
   certificates: 'certificates',
@@ -16,11 +15,11 @@ export const en: I18nItemType = {
   volunteer: 'volunteer',
   work: 'work',
 
-  addressFormatter: createAddressFormatter([
+  addressForLocaleArray: [
     ['address'],
     ['city', 'region', 'postalCode'],
     ['countryCode']
-  ])
+  ]
 };
 
 export default en;

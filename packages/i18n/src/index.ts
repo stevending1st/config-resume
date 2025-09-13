@@ -14,4 +14,4 @@ export default {
 
   zh,
   'zh-cn': zh_cn
-} as I18nType;
+} as unknown as I18nType;
