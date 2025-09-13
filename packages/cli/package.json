@@ -4,6 +4,14 @@
   "description": "Generate a resume web page through a profile.",
   "author": "stevending1st",
   "license": "MIT",
+  "homepage": "https://github.com/stevending1st/config-resume#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stevending1st/config-resume.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stevending1st/config-resume/issues"
+  },
   "bin": {
     "cr": "bin/index.mjs"
   },
@@ -23,6 +31,9 @@
     "dist",
     "template",
     "index.d.ts"
+  ],
+  "keywords": [
+    "config-resume"
   ],
   "scripts": {
     "build": "tsup src/index.ts src/cli.ts",
