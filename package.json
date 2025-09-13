@@ -1,6 +1,8 @@
 {
   "name": "config-resume",
   "version": "0.0.1-alpha.12",
+  "author": "stevending1st",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev:types": "pnpm -F @config-resume/types dev",
@@ -17,12 +19,6 @@
     "prepare": "husky",
     "release": "bumpp package.json packages/*/package.json --all -x \"zx scripts/update-versions.mjs\"",
     "pub": "pnpm publish -r --access public"
-  },
-  "author": "stevending1st",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/stevending1st/nodejs-command-line-start.git"
   },
   "prettier": {
     "plugins": [
