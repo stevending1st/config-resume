@@ -4,19 +4,19 @@ import type { Location } from '@config-resume/types';
 
 export const myAddressFormatter = (
   lang: string,
-  location: Location,
+  location?: Location,
   addressForLocaleArray?: LocationKeyArray
 ) => {
   const addressFormatter = createAddressFormatter(
     addressForLocaleArray ?? [
-      ['address', 'city', 'region', 'postalCode', 'countryCode']
+      ['countryCode', 'region', 'city', 'address', 'postalCode']
     ]
   );
   const addressArr = addressFormatter(location);
   const connector = ['en', 'en-us'].includes(lang)
     ? ', '
     : ['zh', 'zh-cn'].includes(lang)
-      ? ''
+      ? ' '
       : ' ';
   return addressArr
     .map(addresses =>

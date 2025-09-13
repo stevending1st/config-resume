@@ -5,7 +5,7 @@ import type { LocationArrayItem, LocationKeyArray } from '../type';
 export function createAddressFormatter(
   defaultAddressForLocaleArray: LocationKeyArray
 ) {
-  return (location: Location, userAddressForLocaleArray?: LocationKeyArray) =>
+  return (location?: Location, userAddressForLocaleArray?: LocationKeyArray) =>
     (userAddressForLocaleArray && userAddressForLocaleArray?.length > 0
       ? userAddressForLocaleArray
       : defaultAddressForLocaleArray
@@ -14,7 +14,7 @@ export function createAddressFormatter(
         (item: LocationKey) =>
           ({
             key: item,
-            value: location[item as LocationKey] ?? ''
+            value: location?.[item as LocationKey] ?? ''
           }) as LocationArrayItem
       )
     );
