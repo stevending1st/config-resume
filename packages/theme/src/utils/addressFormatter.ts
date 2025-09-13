@@ -25,5 +25,6 @@ export const myAddressFormatter = (
         .filter(Boolean)
         .join(connector)
     )
+    .filter(Boolean)
     .join(connector);
 };
