@@ -6,6 +6,7 @@ import zh_cn from './zh-cn';
 
 export * from './supportedLanguage';
 export * from './type';
+export * from './utils/formatAddressForLocale';
 
 export default {
   en,
@@ -13,4 +14,4 @@ export default {
 
   zh,
   'zh-cn': zh_cn
-} as I18nType;
+} as unknown as I18nType;

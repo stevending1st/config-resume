@@ -15,8 +15,9 @@ import Work from '../components/Work.astro';
 import LanguageSelector from '../components/LanguageSelector.astro';
 import Layout from '../layouts/Layout.astro';
 
-import lang, { supportedLanguages } from 'virtual:config-resume:i18n';
+import i18nItem, { lang, supportedLanguages } from 'virtual:config-resume:i18n';
 import resume from 'virtual:config-resume:resume';
+import { myAddressFormatter } from '../utils/addressFormatter';
 
 const {
   basics,
@@ -32,7 +33,13 @@ const {
   references,
   projects
 } = resume || {};
-const { name, summary, ...otherBasics } = basics || {};
+const { name, summary, location, ...otherBasics } = basics || {};
+
+const addressString = myAddressFormatter(
+  lang,
+  location,
+  i18nItem.addressForLocaleArray
+);
 ---
 
 <Layout title={name ? name : 'Resume'} description={summary}>
@@ -49,38 +56,50 @@ const { name, summary, ...otherBasics } = basics || {};
       }
 
       <div class="divide-y divide-gray-400 divide-dashed *:py-5">
-        <Basics {...{ name, ...otherBasics }} />
+        <Basics {...{ name, locationString: addressString, ...otherBasics }} />
 
-        <Summary componentNameText={lang.summary} summary={summary} />
+        <Summary componentNameText={i18nItem.summary} summary={summary} />
 
-        <Education componentNameText={lang.education} education={education} />
+        <Education
+          componentNameText={i18nItem.education}
+          education={education}
+        />
 
         <Certificates
-          componentNameText={lang.certificates}
+          componentNameText={i18nItem.certificates}
           certificates={certificates}
         />
 
-        <Skills componentNameText={lang.skills} skills={skills} />
+        <Skills componentNameText={i18nItem.skills} skills={skills} />
 
-        <Projects componentNameText={lang.projects} projects={projects} />
+        <Projects componentNameText={i18nItem.projects} projects={projects} />
 
-        <Languages componentNameText={lang.languages} languages={languages} />
+        <Languages
+          componentNameText={i18nItem.languages}
+          languages={languages}
+        />
 
-        <Work componentNameText={lang.work} work={work} />
+        <Work componentNameText={i18nItem.work} work={work} />
 
         <Publications
-          componentNameText={lang.publications}
+          componentNameText={i18nItem.publications}
           publications={publications}
         />
 
-        <Awards componentNameText={lang.awards} awards={awards} />
+        <Awards componentNameText={i18nItem.awards} awards={awards} />
 
-        <Interests componentNameText={lang.interests} interests={interests} />
+        <Interests
+          componentNameText={i18nItem.interests}
+          interests={interests}
+        />
 
-        <Volunteer componentNameText={lang.volunteer} volunteer={volunteer} />
+        <Volunteer
+          componentNameText={i18nItem.volunteer}
+          volunteer={volunteer}
+        />
 
         <References
-          componentNameText={lang.references}
+          componentNameText={i18nItem.references}
           references={references}
         />
       </div>

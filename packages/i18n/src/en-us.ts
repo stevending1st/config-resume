@@ -1,7 +1,7 @@
 import en from './en';
-import { I18nItemType } from './type';
+import { I18nItemSubType } from './type';
 
-export const en_us: I18nItemType = {
+export const en_us: I18nItemSubType = {
   ...en
 };
 

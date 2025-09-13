@@ -1,6 +1,6 @@
-import { I18nItemType } from './type';
+import { I18nItemSubType } from './type';
 
-export const zh: I18nItemType = {
+export const zh: I18nItemSubType = {
   awards: '奖项',
   basics: '基础信息',
   certificates: '证书',
@@ -13,7 +13,11 @@ export const zh: I18nItemType = {
   skills: '技能',
   summary: '简介',
   volunteer: '志愿',
-  work: '工作'
+  work: '工作',
+
+  addressForLocaleArray: [
+    ['countryCode', 'region', 'city', 'address', 'postalCode']
+  ]
 };
 
 export default zh;

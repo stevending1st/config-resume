@@ -91,8 +91,13 @@ const markCurrentLang = (
     isCurrent: code === currentLang
   }));
 
-const i18nPluginLoad = (defaultValue: string, languages?: string) =>
+const i18nPluginLoad = (
+  defaultValue: string,
+  lang: string,
+  languages?: string
+) =>
   `export const supportedLanguages = ${languages ?? '[]'};
+export const lang = '${lang}';
 
 export default ${defaultValue};`;
 
@@ -173,6 +178,7 @@ export function i18nPlugin(): PluginOption {
         const thisLang = ['index', ''].includes(langFlag) ? 'en' : langFlag;
         return i18nPluginLoad(
           JSON.stringify(i18nCache[thisLang]),
+          thisLang,
           JSON.stringify(markCurrentLang(mySupporedLangusges, thisLang))
         );
       }

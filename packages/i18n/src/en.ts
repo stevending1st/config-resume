@@ -1,6 +1,6 @@
-import { I18nItemType } from './type';
+import { I18nItemSubType } from './type';
 
-export const en: I18nItemType = {
+export const en: I18nItemSubType = {
   awards: 'awards',
   basics: 'basics',
   certificates: 'certificates',
@@ -13,7 +13,13 @@ export const en: I18nItemType = {
   skills: 'skills',
   summary: 'summary',
   volunteer: 'volunteer',
-  work: 'work'
+  work: 'work',
+
+  addressForLocaleArray: [
+    ['address'],
+    ['city', 'region', 'postalCode'],
+    ['countryCode']
+  ]
 };
 
 export default en;

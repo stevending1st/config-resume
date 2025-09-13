@@ -1,3 +1,9 @@
+import { LocationKey } from '@config-resume/types';
+
+export type LocationArrayItem = Record<'key' | 'value', string>;
+export type LocationKeyArray = Array<Array<LocationKey>>;
+export type LocationArray = Array<Array<LocationArrayItem>>;
+
 export type I18nItemType = Record<
   | 'awards'
   | 'basics'
@@ -13,7 +19,9 @@ export type I18nItemType = Record<
   | 'volunteer'
   | 'work',
   string
->;
+> & {
+  addressForLocaleArray: LocationKeyArray;
+};
 
 export type I18nItemSubType = Partial<I18nItemType>;
 
