@@ -2,22 +2,16 @@
 import type { BasicsComponentProps } from '@config-resume/types';
 import { hasTrue } from '../utils/boolean';
 
-interface Props extends BasicsComponentProps {}
+interface Props extends Omit<BasicsComponentProps, 'location'> {
+  locationString?: string;
+}
 
-const { name, label, image, email, phone, url, location, profiles } =
+const { name, label, image, email, phone, url, locationString, profiles } =
   Astro.props;
-
-const { address, postalCode, city, countryCode, region } = location || {};
 
 const isShowNameLine = hasTrue(name, label);
 const isShowEmailLine = hasTrue(email, phone, url);
-const isShowAddressLine = hasTrue(
-  address,
-  postalCode,
-  city,
-  countryCode,
-  region
-);
+const isShowAddressLine = hasTrue(locationString);
 const isShowProfilesLine = hasTrue(profiles, (profiles?.length || 0) > 0);
 const isShowBasic = hasTrue(
   image,
@@ -78,11 +72,7 @@ const isShowBasic = hasTrue(
           {/* address, city, region, postalCode, countryCode */}
           {isShowAddressLine && (
             <div>
-              <address class="inline">
-                {[address, city, region, postalCode, countryCode]
-                  .filter(Boolean)
-                  .join(', ')}
-              </address>
+              <address class="inline">{locationString}</address>
             </div>
           )}
 
