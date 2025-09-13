@@ -2,6 +2,16 @@
   "name": "@config-resume/types",
   "version": "0.0.1-alpha.11",
   "description": "Share type of config-resume.",
+  "author": "stevending1st",
+  "license": "MIT",
+  "homepage": "https://github.com/stevending1st/config-resume#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stevending1st/config-resume.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stevending1st/config-resume/issues"
+  },
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "index.d.ts",
@@ -9,11 +19,12 @@
     "dist",
     "index.d.ts"
   ],
+  "keywords": [
+    "config-resume"
+  ],
   "scripts": {
     "build": "tsup src/index.ts",
     "dev": "pnpm build --watch",
     "prepublishOnly": "npm run build"
-  },
-  "author": "stevending1st",
-  "license": "MIT"
+  }
 }
