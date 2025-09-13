@@ -4,6 +4,14 @@
   "description": "Shared i18n of config-resume.",
   "author": "stevending1st",
   "license": "MIT",
+  "homepage": "https://github.com/stevending1st/config-resume#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stevending1st/config-resume.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stevending1st/config-resume/issues"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
@@ -17,6 +25,9 @@
   "files": [
     "dist",
     "index.d.ts"
+  ],
+  "keywords": [
+    "config-resume"
   ],
   "scripts": {
     "build": "tsup src/index.ts",
