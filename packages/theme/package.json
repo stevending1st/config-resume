@@ -5,6 +5,14 @@
   "author": "stevending1st",
   "type": "module",
   "license": "MIT",
+  "homepage": "https://github.com/stevending1st/config-resume#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stevending1st/config-resume.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stevending1st/config-resume/issues"
+  },
   "files": [
     "i18n",
     "public",
@@ -13,6 +21,9 @@
     "astro.config.mjs",
     "tailwind.config.mjs",
     "tsconfig.json"
+  ],
+  "keywords": [
+    "config-resume"
   ],
   "scripts": {
     "dev": "astro dev",
